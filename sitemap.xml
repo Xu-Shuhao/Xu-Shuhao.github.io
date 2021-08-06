@@ -39,20 +39,6 @@
 
   
   <url>
-    <loc>https://xu-shuhao.github.io/tags/Hexo/</loc>
-    <lastmod>2021-08-06</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://xu-shuhao.github.io/tags/Butterfly/</loc>
-    <lastmod>2021-08-06</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://xu-shuhao.github.io/tags/Pytorch/</loc>
     <lastmod>2021-08-06</lastmod>
     <changefreq>daily</changefreq>
@@ -73,17 +59,31 @@
     <priority>0.6</priority>
   </url>
   
-
-  
   <url>
-    <loc>https://xu-shuhao.github.io/categories/Blog/</loc>
+    <loc>https://xu-shuhao.github.io/tags/Hexo/</loc>
     <lastmod>2021-08-06</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
+    <loc>https://xu-shuhao.github.io/tags/Butterfly/</loc>
+    <lastmod>2021-08-06</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+
+  
+  <url>
     <loc>https://xu-shuhao.github.io/categories/Pytorch/</loc>
+    <lastmod>2021-08-06</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://xu-shuhao.github.io/categories/Blog/</loc>
     <lastmod>2021-08-06</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>

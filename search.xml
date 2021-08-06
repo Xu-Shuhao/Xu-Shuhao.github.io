@@ -1,6 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>新手PytorchTensor笔记 (一)</title>
+    <url>/2021/08/06/%E6%96%B0%E6%89%8BPytorchTensor%E7%AC%94%E8%AE%B0/</url>
+    <content><![CDATA[<p><em>本篇博客介绍<code>Pytorch</code>中的<code>Tensor</code>概念, 如果你会用<code>Numpy</code>的话, 学习轻而易举</em></p>
+<p>来源官方文档: <em><a href="https://pytorch.org/tutorials/beginner/blitz/tensor_tutorial.html#bridge-to-np-label">https://pytorch.org/tutorials/beginner/blitz/tensor_tutorial.html#bridge-to-np-label</a></em></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="Tensor-Initialization-张量初始化"><a href="#Tensor-Initialization-张量初始化" class="headerlink" title="Tensor Initialization 张量初始化"></a>Tensor Initialization 张量初始化</h2><p><em>总结</em>: </p>
+<ul>
+<li>从普通的数据转变, 直接<code>torch.tensor()</code></li>
+<li>从<code>Numpy</code>导入, <code>torch.from_numpy()</code></li>
+<li>抄其他数据格式, <code>torch.ones/rand_like()</code></li>
+</ul>
+<p>① 从数据中生成<code>Tensor</code>张量</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">data = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>]</span><br><span class="line">t_data = torch.tensor(data)</span><br></pre></td></tr></table></figure>
+
+<p>② 从<code>Numpy</code>中导入</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">np_array = np.array(data)</span><br><span class="line">t_np_array = torch.from_numpy(np_array)</span><br></pre></td></tr></table></figure>
+
+<p>③ 从其他<code>Tensor</code>导入</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">t_ones = torch.ones_like(t_np_array)</span><br><span class="line">t_rand = torch.rand_like(t_ones)</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>One Tensor: </p>
+<p>​    tensor([1, 1, 1, 1])</p>
+<p>​    tensor([0.2233, 0.5553, 0.3333, 0.5542])</p>
+</blockquote>
+<p>④ 随机生成*(需指定样式<code>shape</code>)*</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">shape = (<span class="number">2</span>, <span class="number">3</span>, )</span><br><span class="line">rand_tensor = torch.rand(shape)</span><br><span class="line">ones_tensor = torch.ones(shape)</span><br><span class="line">zeros_tensor = torch.zeros(shape)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 额外讲讲 shape 的事情</span></span><br><span class="line">x = torch.rand((<span class="number">2</span>, <span class="number">3</span>, )) </span><br><span class="line"><span class="comment"># x的shape值是(2, 3, ), 表示这是一个二维数组, 有两行, 三列</span></span><br><span class="line">y = torch.rand((<span class="number">2</span>, ))</span><br><span class="line"><span class="comment"># y的shape是(2, ), 表示的是一个一维数组, 这个一维数组里, 有两个元素</span></span><br><span class="line">z = torch.rand((<span class="number">2</span>, <span class="number">1</span> ))</span><br><span class="line"><span class="comment"># z的shape是(2, 1), 表示的是一个二维数组, 总共两行, 一列(每一行一个元素)</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="Tensor-Attributes-张量属性"><a href="#Tensor-Attributes-张量属性" class="headerlink" title="Tensor Attributes 张量属性"></a>Tensor Attributes 张量属性</h2><ul>
+<li><code>tensor.shape</code></li>
+<li><code>tensor.dtype</code></li>
+<li><code>tensor.devices</code>  result is <em>cpu</em> or <em>gpu</em></li>
+</ul>
+<h2 id="Tensor-Operation"><a href="#Tensor-Operation" class="headerlink" title="Tensor Operation"></a>Tensor Operation</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># We move our tensor to the GPU if available</span></span><br><span class="line"><span class="keyword">if</span> torch.cuda.is_available():</span><br><span class="line">  tensor = tensor.to(<span class="string">&#x27;cuda&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<p><code>torch</code>的用法和<code>Numpy</code>很相近</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">tensor = torch.ones(<span class="number">4</span>, <span class="number">4</span>)</span><br><span class="line">tensor[:,<span class="number">1</span>] = <span class="number">0</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>tensor([ [1., 0., 1., 1.],<br>            [1., 0., 1., 1.],<br>            [1., 0., 1., 1.],<br>            [1., 0., 1., 1.]])</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">t1 = torch.cat([tensor, tensor, tensor], dim=<span class="number">1</span>)</span><br><span class="line"><span class="comment"># 这里cat 将多个tensor按照 *列* 进行组合, 前提是除了 *列* 之外, 其他维度都要一样</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>tensor([ [1., 0., 1., 1., 1., 0., 1., 1., 1., 0., 1., 1.],<br>           [1., 0., 1., 1., 1., 0., 1., 1., 1., 0., 1., 1.],<br>           [1., 0., 1., 1., 1., 0., 1., 1., 1., 0., 1., 1.],<br>           [1., 0., 1., 1., 1., 0., 1., 1., 1., 0., 1., 1.]])</p>
+</blockquote>
+<p>用<code>_</code>下缀会是全体的结果</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">tensor.add_(<span class="number">5</span>) <span class="comment">#是tensor中每一个单元都+5</span></span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>Pytorch</category>
+      </categories>
+      <tags>
+        <tag>Pytorch</tag>
+        <tag>Learning Note</tag>
+        <tag>Muggle</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Hexo+Github+Butterfly mac上部署自己的博客</title>
     <url>/2021/08/06/Hexo-Github-Butterfly-mac%E4%B8%8A%E9%83%A8%E7%BD%B2%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2/</url>
     <content><![CDATA[<h2 id="Hexo-Github-Butterfly-mac上部署自己的博客"><a href="#Hexo-Github-Butterfly-mac上部署自己的博客" class="headerlink" title="Hexo+Github+Butterfly mac上部署自己的博客"></a>Hexo+Github+Butterfly mac上部署自己的博客</h2><h3 id="Abstract：摘要"><a href="#Abstract：摘要" class="headerlink" title="Abstract：摘要"></a>Abstract：摘要</h3><blockquote>
@@ -95,70 +160,6 @@
       <tags>
         <tag>Hexo</tag>
         <tag>Butterfly</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>新手PytorchTensor笔记 (一)</title>
-    <url>/2021/08/06/%E6%96%B0%E6%89%8BPytorchTensor%E7%AC%94%E8%AE%B0/</url>
-    <content><![CDATA[<p><em>本篇博客介绍<code>Pytorch</code>中的<code>Tensor</code>概念, 如果你会用<code>Numpy</code>的话, 学习轻而易举</em></p>
-<p>来源官方文档: <em><a href="https://pytorch.org/tutorials/beginner/blitz/tensor_tutorial.html#bridge-to-np-label">https://pytorch.org/tutorials/beginner/blitz/tensor_tutorial.html#bridge-to-np-label</a></em></p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="Tensor-Initialization-张量初始化"><a href="#Tensor-Initialization-张量初始化" class="headerlink" title="Tensor Initialization 张量初始化"></a>Tensor Initialization 张量初始化</h2><p><em>总结</em>: </p>
-<ul>
-<li>从普通的数据转变, 直接<code>torch.tensor()</code></li>
-<li>从<code>Numpy</code>导入, <code>torch.from_numpy()</code></li>
-<li>抄其他数据格式, <code>torch.ones/rand_like()</code></li>
-</ul>
-<h5 id="①-从数据中生成Tensor张量"><a href="#①-从数据中生成Tensor张量" class="headerlink" title="① 从数据中生成Tensor张量"></a>① 从数据中生成<code>Tensor</code>张量</h5><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">data = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>]</span><br><span class="line">t_data = torch.tensor(data)</span><br></pre></td></tr></table></figure>
-
-<p>② 从<code>Numpy</code>中导入</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">np_array = np.array(data)</span><br><span class="line">t_np_array = torch.from_numpy(np_array)</span><br></pre></td></tr></table></figure>
-
-<p>③ 从其他<code>Tensor</code>导入</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">t_ones = torch.ones_like(t_np_array)</span><br><span class="line">t_rand = torch.rand_like(t_ones)</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>One Tensor: </p>
-<p>​    tensor([1, 1, 1, 1])</p>
-<p>​    tensor([0.2233, 0.5553, 0.3333, 0.5542])</p>
-</blockquote>
-<p>④ 随机生成*(需指定样式<code>shape</code>)*</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">shape = (<span class="number">2</span>, <span class="number">3</span>, )</span><br><span class="line">rand_tensor = torch.rand(shape)</span><br><span class="line">ones_tensor = torch.ones(shape)</span><br><span class="line">zeros_tensor = torch.zeros(shape)</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 额外讲讲 shape 的事情</span></span><br><span class="line">x = torch.rand((<span class="number">2</span>, <span class="number">3</span>, )) </span><br><span class="line"><span class="comment"># x的shape值是(2, 3, ), 表示这是一个二维数组, 有两行, 三列</span></span><br><span class="line">y = torch.rand((<span class="number">2</span>, ))</span><br><span class="line"><span class="comment"># y的shape是(2, ), 表示的是一个一维数组, 这个一维数组里, 有两个元素</span></span><br><span class="line">z = torch.rand((<span class="number">2</span>, <span class="number">1</span> ))</span><br><span class="line"><span class="comment"># z的shape是(2, 1), 表示的是一个二维数组, 总共两行, 一列(每一行一个元素)</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="Tensor-Attributes-张量属性"><a href="#Tensor-Attributes-张量属性" class="headerlink" title="Tensor Attributes 张量属性"></a>Tensor Attributes 张量属性</h2><ul>
-<li><code>tensor.shape</code></li>
-<li><code>tensor.dtype</code></li>
-<li><code>tensor.devices</code>  result is <em>cpu</em> or <em>gpu</em></li>
-</ul>
-<h2 id="Tensor-Operation"><a href="#Tensor-Operation" class="headerlink" title="Tensor Operation"></a>Tensor Operation</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># We move our tensor to the GPU if available</span></span><br><span class="line"><span class="keyword">if</span> torch.cuda.is_available():</span><br><span class="line">  tensor = tensor.to(<span class="string">&#x27;cuda&#x27;</span>)</span><br></pre></td></tr></table></figure>
-
-<p><code>torch</code>的用法和<code>Numpy</code>很相近</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">tensor = torch.ones(<span class="number">4</span>, <span class="number">4</span>)</span><br><span class="line">tensor[:,<span class="number">1</span>] = <span class="number">0</span></span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>tensor([ [1., 0., 1., 1.],<br>            [1., 0., 1., 1.],<br>            [1., 0., 1., 1.],<br>            [1., 0., 1., 1.]])</p>
-</blockquote>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">t1 = torch.cat([tensor, tensor, tensor], dim=<span class="number">1</span>)</span><br><span class="line"><span class="comment"># 这里cat 将多个tensor按照 *列* 进行组合, 前提是除了 *列* 之外, 其他维度都要一样</span></span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>tensor([ [1., 0., 1., 1., 1., 0., 1., 1., 1., 0., 1., 1.],<br>           [1., 0., 1., 1., 1., 0., 1., 1., 1., 0., 1., 1.],<br>           [1., 0., 1., 1., 1., 0., 1., 1., 1., 0., 1., 1.],<br>           [1., 0., 1., 1., 1., 0., 1., 1., 1., 0., 1., 1.]])</p>
-</blockquote>
-<p>用<code>_</code>下缀会是全体的结果</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">tensor.add_(<span class="number">5</span>) <span class="comment">#是tensor中每一个单元都+5</span></span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <categories>
-        <category>Pytorch</category>
-      </categories>
-      <tags>
-        <tag>Pytorch</tag>
-        <tag>Learning Note</tag>
-        <tag>Muggle</tag>
       </tags>
   </entry>
 </search>
