@@ -1,68 +1,107 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>新手PytorchTensor笔记 (一)</title>
-    <url>/2021/08/06/%E6%96%B0%E6%89%8BPytorchTensor%E7%AC%94%E8%AE%B0/</url>
-    <content><![CDATA[<p><em>本篇博客介绍<code>Pytorch</code>中的<code>Tensor</code>概念, 如果你会用<code>Numpy</code>的话, 学习轻而易举</em></p>
-<p>来源官方文档: <em><a href="https://pytorch.org/tutorials/beginner/blitz/tensor_tutorial.html#bridge-to-np-label">https://pytorch.org/tutorials/beginner/blitz/tensor_tutorial.html#bridge-to-np-label</a></em></p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="Tensor-Initialization-张量初始化"><a href="#Tensor-Initialization-张量初始化" class="headerlink" title="Tensor Initialization 张量初始化"></a>Tensor Initialization 张量初始化</h2><p><em>总结</em>: </p>
+    <title>Graph Structured Network for Image-Text Matching 阅读笔记</title>
+    <url>/2021/08/07/Graph%20Structured%20Network%20for%20Image-Text%20Matching%20%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/</url>
+    <content><![CDATA[<h1 id="Graph-Structured-Network-for-Image-Text-Matching-阅读笔记"><a href="#Graph-Structured-Network-for-Image-Text-Matching-阅读笔记" class="headerlink" title="Graph Structured Network for Image-Text Matching 阅读笔记"></a>Graph Structured Network for Image-Text Matching 阅读笔记</h1><p>将经过自己理解的知识, 进行处理; </p>
+<p>PPT 作者介绍</p>
+<h2 id="1-在这篇论文出来前-行业内的难点是什么"><a href="#1-在这篇论文出来前-行业内的难点是什么" class="headerlink" title="1 在这篇论文出来前, 行业内的难点是什么"></a>1 在这篇论文出来前, 行业内的难点是什么</h2><p>​    这是针对imge-text matching的任务, 这个任务的难点有3个: </p>
 <ul>
-<li>从普通的数据转变, 直接<code>torch.tensor()</code></li>
-<li>从<code>Numpy</code>导入, <code>torch.from_numpy()</code></li>
-<li>抄其他数据格式, <code>torch.ones/rand_like()</code></li>
+<li>如何从text文本中提取有效信息, 并且这些信息和信息之间有什么关联</li>
+<li>如何从img中获取图片中有物体(目标)的区域, 这些区域和区域之间是有什么关联</li>
+<li>最重要的: 如何将text的feature和img的feature产生关联性</li>
 </ul>
-<p>① 从数据中生成<code>Tensor</code>张量</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">data = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>]</span><br><span class="line">t_data = torch.tensor(data)</span><br></pre></td></tr></table></figure>
-
-<p>② 从<code>Numpy</code>中导入</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">np_array = np.array(data)</span><br><span class="line">t_np_array = torch.from_numpy(np_array)</span><br></pre></td></tr></table></figure>
-
-<p>③ 从其他<code>Tensor</code>导入</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">t_ones = torch.ones_like(t_np_array)</span><br><span class="line">t_rand = torch.rand_like(t_ones)</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>One Tensor: </p>
-<p>​    tensor([1, 1, 1, 1])</p>
-<p>​    tensor([0.2233, 0.5553, 0.3333, 0.5542])</p>
-</blockquote>
-<p>④ 随机生成*(需指定样式<code>shape</code>)*</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">shape = (<span class="number">2</span>, <span class="number">3</span>, )</span><br><span class="line">rand_tensor = torch.rand(shape)</span><br><span class="line">ones_tensor = torch.ones(shape)</span><br><span class="line">zeros_tensor = torch.zeros(shape)</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 额外讲讲 shape 的事情</span></span><br><span class="line">x = torch.rand((<span class="number">2</span>, <span class="number">3</span>, )) </span><br><span class="line"><span class="comment"># x的shape值是(2, 3, ), 表示这是一个二维数组, 有两行, 三列</span></span><br><span class="line">y = torch.rand((<span class="number">2</span>, ))</span><br><span class="line"><span class="comment"># y的shape是(2, ), 表示的是一个一维数组, 这个一维数组里, 有两个元素</span></span><br><span class="line">z = torch.rand((<span class="number">2</span>, <span class="number">1</span> ))</span><br><span class="line"><span class="comment"># z的shape是(2, 1), 表示的是一个二维数组, 总共两行, 一列(每一行一个元素)</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="Tensor-Attributes-张量属性"><a href="#Tensor-Attributes-张量属性" class="headerlink" title="Tensor Attributes 张量属性"></a>Tensor Attributes 张量属性</h2><ul>
-<li><code>tensor.shape</code></li>
-<li><code>tensor.dtype</code></li>
-<li><code>tensor.devices</code>  result is <em>cpu</em> or <em>gpu</em></li>
+<h2 id="2-行业往往用什么办法来解决的"><a href="#2-行业往往用什么办法来解决的" class="headerlink" title="2 行业往往用什么办法来解决的"></a>2 行业往往用什么办法来解决的</h2><p>​    行业内常见的做法是将训练数据中的{image, text}这样的pair进行高维度空间的映射, 尽可能地使得image和text在高维度间的距离相近. 这是对象共现的做法, 目前主要有两种学习方案:</p>
+<ul>
+<li>global correspondence:<ul>
+<li>学习整个图像与句子之间的对应关系</li>
+<li>主要目标是最大化匹配图文对的相似性.该领域的主要研究思路是首先将图像和文本表示为特征向量，然后将它们投影到一个经过排序损失优化的公共空间中.这种全局对应学习方法不能准确地学习图像和文本的对应关系，因为主要对象在图像-文本对的全局表示中占据主导地位，而次要对象大多被忽略.</li>
 </ul>
-<h2 id="Tensor-Operation"><a href="#Tensor-Operation" class="headerlink" title="Tensor Operation"></a>Tensor Operation</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># We move our tensor to the GPU if available</span></span><br><span class="line"><span class="keyword">if</span> torch.cuda.is_available():</span><br><span class="line">  tensor = tensor.to(<span class="string">&#x27;cuda&#x27;</span>)</span><br></pre></td></tr></table></figure>
-
-<p><code>torch</code>的用法和<code>Numpy</code>很相近</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">tensor = torch.ones(<span class="number">4</span>, <span class="number">4</span>)</span><br><span class="line">tensor[:,<span class="number">1</span>] = <span class="number">0</span></span><br></pre></td></tr></table></figure>
-
+</li>
+<li>local correspondence:<ul>
+<li>在局部区域和文字之间学习</li>
+<li>缺点是: 忽略了其他的文字对匹配对象的辅助作用</li>
+</ul>
+</li>
+</ul>
+<h2 id="作者提出了什么新思路来解决难点的"><a href="#作者提出了什么新思路来解决难点的" class="headerlink" title="作者提出了什么新思路来解决难点的"></a>作者提出了什么新思路来解决难点的</h2><p>​    作者认为行业内的做法没有考虑到被称作<code>fine-grained correspondence</code>的数据, 比如物体和文本的关系, 属性等特征, 只考虑到物体对应. 这样做的后果有两个:</p>
+<ul>
+<li>研究方向聚焦物体对应方面, 容易忽略其他有用的信息, 比如说: 关系, 属性等等.</li>
+<li>文本对象, 图像对象有可能存在匹配失误的问题, 比如说: 狗</li>
+</ul>
+<h2 id="GSMN的结构详细介绍"><a href="#GSMN的结构详细介绍" class="headerlink" title="GSMN的结构详细介绍"></a>GSMN的结构详细介绍</h2><p><img src="https://cdn.jsdelivr.net/gh/Xu-Shuhao/PicBedCDN/img/paper_cv_GSMN_overview_network.png" alt="image1-An overview of GSMN structure"></p>
 <blockquote>
-<p>tensor([ [1., 0., 1., 1.],<br>            [1., 0., 1., 1.],<br>            [1., 0., 1., 1.],<br>            [1., 0., 1., 1.]])</p>
+<p>它由三个模块组成:(a)特征提取：使用Faster-RCNN 和Stanford CoreNLP 分别检测显著区域并解析语义依赖性 (b) 图的构造：图的节点是对象，关系或属性，如果任意两个节点在语义上是相关的，则边存在。(c1)节点级匹配：分别学习对象，关系和属性的对应关系。(c2)结构级匹配：将学习到的对应关系传播给邻居，以共同推断出细粒度的短语对应关系.</p>
 </blockquote>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">t1 = torch.cat([tensor, tensor, tensor], dim=<span class="number">1</span>)</span><br><span class="line"><span class="comment"># 这里cat 将多个tensor按照 *列* 进行组合, 前提是除了 *列* 之外, 其他维度都要一样</span></span><br></pre></td></tr></table></figure>
-
+<h3 id="1-图结构介绍"><a href="#1-图结构介绍" class="headerlink" title="1 图结构介绍"></a>1 图结构介绍</h3><p>结构是什么, 是怎么存储的.</p>
+<h4 id="Textual-Graph"><a href="#Textual-Graph" class="headerlink" title="Textual Graph"></a>Textual Graph</h4><p><code>Textual Graph</code>用无向图 $G_1=(V_1, E_1)$ 表示. 该图也被设置为全连接图 </p>
+<p>建立这张图, 用到了<code>3</code>个矩阵: 带有self-loops(对角线值为 $1$ )的邻接矩阵 $A$ , 表示单词之间相近度的矩阵 $S$ , 边的权重矩阵 $W_e$</p>
+<ul>
+<li><p>邻接矩阵$A$是通过<code>Stanford CoreNLP</code>对文本单词进行关系提取, 有语意关系的认为是有边的</p>
+</li>
+<li><p>$S$矩阵是通过学习得到的, 学习公式是:</p>
+</li>
+<li><blockquote>
+<p>${s_{ij} = \frac{\exp({\lambda} {u_i^T} {u_j})} {\sum_{j=0}^{m} \exp({\lambda} {u_i^T} {u_j})} }$</p>
+<p>其中, $u$是word representations(Embeddings),$s_{ij}$ 代表$i$-th和$j$-th节点的相似度 </p>
+</blockquote>
+</li>
+<li><p>$W$矩阵是通过$S$和$A$得到的, 公式是:</p>
+</li>
+<li><blockquote>
+<p>$W_e = \left|S \circ A \right|_2$</p>
+</blockquote>
+</li>
+</ul>
+<h4 id="Visual-Graph"><a href="#Visual-Graph" class="headerlink" title="Visual Graph"></a>Visual Graph</h4><p>​    $G_2=(V_2, E_2)$, 同理, 只是将<code>Stanford CoreNLP</code>替换成了<code>Faster-RCNN</code>, 这里作者说了极坐标表示, 我还不是很懂..</p>
+<h3 id="2-图的交互和传播"><a href="#2-图的交互和传播" class="headerlink" title="2 图的交互和传播"></a>2 图的交互和传播</h3><p>​    本次的目标是要创造一个函数<code>g( )</code>, 表示$G_1$和$G_2$的相似度, $G_1$节点用$U_{\alpha}\in \Reals^{m \times d}$表示, m是节点数, d是节点embedding的Dim; $G_2$节点用$V_{\beta}\in \Reals^{n \times d}$表示, m是节点数, d是节点embedding的Dim.</p>
+<h4 id="Node-level-matching"><a href="#Node-level-matching" class="headerlink" title="Node-level matching"></a>Node-level matching</h4><p>​    就是用节点和节点之间内积再经过<code>softmax</code>处理之后 表示两个节点之间的近似度; 具体公式是:</p>
 <blockquote>
-<p>tensor([ [1., 0., 1., 1., 1., 0., 1., 1., 1., 0., 1., 1.],<br>           [1., 0., 1., 1., 1., 0., 1., 1., 1., 0., 1., 1.],<br>           [1., 0., 1., 1., 1., 0., 1., 1., 1., 0., 1., 1.],<br>           [1., 0., 1., 1., 1., 0., 1., 1., 1., 0., 1., 1.]])</p>
+<p>$C_{t \to i} = softmax_{\beta}(\lambda U_{\alpha}V_{\beta}^T)V_\beta$</p>
 </blockquote>
-<p>用<code>_</code>下缀会是全体的结果</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">tensor.add_(<span class="number">5</span>) <span class="comment">#是tensor中每一个单元都+5</span></span><br></pre></td></tr></table></figure>
-
+<p>​    $\lambda$是个超参数, 具体解释请看论文, 这个不是很重要的地方,有趣的地方来了</p>
+<blockquote>
+<p>看到这我一直在思考, 如果按照作者这种建模方式, 岂不是每一对<code>&#123;img, text&#125;</code>的pair都需要单独建模, 建图, 一方面我认为这种方式建模复杂, 不具有很好的范性; 另一方面, 这种text和img的匹配空间就是训练集给什么pair, 测试的时候只能出现相应的pair, 这显然是不合理的. 作者做了如下改变:</p>
+<p>​    将文本图的第i个节点分成<code>t</code>份, 其有关系的视觉图的<code>k</code>个节点也用<code>t</code>份<code>block</code>表示. (具体怎么表示的, 请看作者代码), 最后针对这个第i个节点, 形成了$x_i = x_{i1} |…|x_{it}$, 我的理解是这个$x_i$表示该文本图的节点所有可能匹配的视觉图的节点的匹配关系.</p>
+</blockquote>
+<p>​    视觉的点的建模方式和文本相似</p>
+<blockquote>
+<p>$C_{i \to t} = softmax_{\alpha}(\lambda V_{\beta} U_{\alpha}^T)U_{\alpha}$</p>
+</blockquote>
+<p>​    因为最后形成的$x_i$是针对每一个node以及其所匹配的另一张图的节点的, 所以$C_{t \to i} \neq C_{i \to t}$</p>
+<h4 id="Structure-level-matching"><a href="#Structure-level-matching" class="headerlink" title="Structure-level matching"></a>Structure-level matching</h4><p>​    此小节将$x_i$(节点匹配结果)作为输入, 在图中传播, 注意这个structure传播是单独在Text 或者Graph的图上传播, 不涉及同时在两张图传播. 图卷积传播公式是</p>
+<blockquote>
+<p> $\hat{x_i} = |<em>{k=1}^{K} \sigma(\displaystyle\sum</em>{j \in N_i} W_e W_k x_j +b)$</p>
+<p>其中K是超参数, 代码中设置为8, $W_k$&amp;$b$是从$K$中学到的参数; 这是每个节点之间的Embedding传播公式</p>
+</blockquote>
+<p>​    当节点传播完毕之后, 要计算$Text \to Image$ &amp;$Image \to Text$ 分别从Text图, Image图去计算和对方的匹配程度. 所以需要计算$Text \to Image$图到$Image \to Text$图的相似度</p>
+<blockquote>
+<p>$s_{t \rightarrow i}=\frac{1}{n} \sum_{i} W_{s}^{u}\left(\sigma\left(W_{h}^{u} \hat{x}<em>{i}+b</em>{h}^{u}\right)\right)+b_{s}^{u}$</p>
+<p>$s_{i \rightarrow t}=\frac{1}{m} \sum_{j} W_{s}^{u}\left(\sigma\left(W_{h}^{u} \hat{x}<em>{i}+b</em>{h}^{u}\right)\right)+b_{s}^{u}$</p>
+<p>最后计算两张图的相似度作者是通过<code>+</code>来实现的</p>
+<p>$g(G_1, G_2) = s_{t \rightarrow i} + s_{i \rightarrow t}$</p>
+</blockquote>
+<h2 id="Loss-损失函数"><a href="#Loss-损失函数" class="headerlink" title="Loss 损失函数"></a>Loss 损失函数</h2><blockquote>
+<p>作者这里设置了 positive sample 和 negative sample 的pair对, 所以损失函数是</p>
+<p>$L=\sum_{(I, T)}\left[\gamma-g(I, T)+g\left(I, T^{\prime}\right)\right]<em>{+}+\left[\gamma-g(I, T)+g\left(I^{\prime}, T\right)\right]</em>{+}$</p>
+<p>where$ I^{\prime} , T^{\prime}$ are hard negatives, the function$ [·]$ + is equivalent to $max[·, 0]$</p>
+</blockquote>
+<h2 id="实验部分"><a href="#实验部分" class="headerlink" title="实验部分"></a>实验部分</h2><h2 id="阅读总结"><a href="#阅读总结" class="headerlink" title="阅读总结"></a>阅读总结</h2><p>​    作者文章逻辑很清晰, 这是值得学习的;</p>
+<h3 id="Q"><a href="#Q" class="headerlink" title="Q"></a>Q</h3><p>1、是不是一张图片，一段文字就是一张图？</p>
+<p>​    ??</p>
+<p>2、图片矩阵m和n是什么意思</p>
+<p>3、为什么区分 i-&gt;t t-&gt;i两种呢？</p>
+<p>​    因为从两个角度出发, 以i为中心, 记录与它最匹配的相似的图; 所以不一定是相互的.</p>
+<p>​    ??</p>
 ]]></content>
       <categories>
-        <category>Pytorch</category>
+        <category>CV</category>
       </categories>
       <tags>
-        <tag>Pytorch</tag>
-        <tag>Learning Note</tag>
-        <tag>Muggle</tag>
+        <tag>GNN</tag>
+        <tag>DeepLearning</tag>
+        <tag>Paper</tag>
+        <tag>CV</tag>
       </tags>
   </entry>
   <entry>
@@ -160,6 +199,356 @@
       <tags>
         <tag>Hexo</tag>
         <tag>Butterfly</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>LeetCode-Array 个人刷题经验</title>
+    <url>/2021/08/28/LeetCode-Array/</url>
+    <content><![CDATA[<h1 id="本篇章会介绍-Leetcode-中的Array部分的刷题经验和个人思路"><a href="#本篇章会介绍-Leetcode-中的Array部分的刷题经验和个人思路" class="headerlink" title="本篇章会介绍$Leetcode$中的Array部分的刷题经验和个人思路"></a>本篇章会介绍$Leetcode$中的<code>Array</code>部分的刷题经验和个人思路</h1><p>文章结构是:</p>
+<ul>
+<li>题号 + 题名 + 题目难度 [H2]<ul>
+<li>做题时间(When) </li>
+<li>做题思路(How) [H3]<ul>
+<li>文字思路 [H5]</li>
+<li>代码 [H5]</li>
+</ul>
+</li>
+<li>总结(Conclusion) [H3]</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>①  如果没有说明, 文中的$i, j, k$指的是循环第$1,2,3$层的变量</p>
+</blockquote>
+<h2 id="题号-53-最大子序和-Easy"><a href="#题号-53-最大子序和-Easy" class="headerlink" title="题号:53 最大子序和 Easy"></a>题号:53 <a href="https://leetcode-cn.com/problems/maximum-subarray/">最大子序和</a> Easy</h2><blockquote>
+<p>给定一个整数数组 <code>nums</code> ，找到一个具有最大和的连续子数组（子数组最少包含一个元素），返回其最大和。</p>
+<p>eg:</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">输入：nums = [<span class="number">-2</span>,<span class="number">1</span>,<span class="number">-3</span>,<span class="number">4</span>,<span class="number">-1</span>,<span class="number">2</span>,<span class="number">1</span>,<span class="number">-5</span>,<span class="number">4</span>]</span><br><span class="line">输出：<span class="number">6</span></span><br><span class="line">解释：连续子数组 [<span class="number">4</span>,<span class="number">-1</span>,<span class="number">2</span>,<span class="number">1</span>] 的和最大，为 <span class="number">6</span> 。</span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>做题时间: <em>2021年08月28日 23:32:28</em></p>
+<h3 id="做题思路"><a href="#做题思路" class="headerlink" title="做题思路"></a>做题思路</h3><ul>
+<li><h5 id="①-看数据量范围"><a href="#①-看数据量范围" class="headerlink" title="① 看数据量范围"></a>① 看数据量范围</h5><blockquote>
+<ul>
+<li><code>1 &lt;= nums.length &lt;= 3 * 104</code></li>
+<li><code>-105 &lt;= nums[i] &lt;= 105</code></li>
+</ul>
+</blockquote>
+<ul>
+<li>这就意味着可以用<code>暴力</code>求解, $O(N^2)$</li>
+</ul>
+</li>
+<li><h5 id="②-暴力求解"><a href="#②-暴力求解" class="headerlink" title="② 暴力求解"></a>② <code>暴力</code>求解</h5><ul>
+<li><p>思路: 列举所有可能的情况, 两个<em>for</em>循环即可, 内循环(j)可以从外循环(i)开始, 并非需要从$0$开始.</p>
+</li>
+<li><p>优点: 思路明确, 代码量少</p>
+</li>
+<li><p>缺点: 时间复杂度高</p>
+<blockquote>
+<p>执行用时：480 ms, 在所有 C++ 提交中击败了6.41%的用户</p>
+<p>内存消耗：12.8 MB, 在所有 C++ 提交中击败了48.56%的用户</p>
+</blockquote>
+</li>
+</ul>
+</li>
+<li><h5 id="③-双指针求解"><a href="#③-双指针求解" class="headerlink" title="③ 双指针求解"></a>③ <code>双指针</code>求解</h5><ul>
+<li><p>Ⅰ 为什么想到用双指针</p>
+<blockquote>
+<p>因为这是一个<code>求区间</code>的题目, 题目要求在整体数组中找到最大值, 即求最大区间的值, 求区间的题目适合用<code>双指针</code>, 能把时间从暴力的$O(N^2)$降低到$O(N)$, 因为暴力包含了很多没必要的计算样例.</p>
+</blockquote>
+</li>
+<li><p>Ⅱ 双指针用<code>两边往中间跑</code>还是<code>一边往另一边跑</code></p>
+<ul>
+<li><p>目前没有很明确的感觉判断该用哪种, 个人是两种都试了, 先尝试的前者.</p>
+</li>
+<li><p><code>两边往中间跑</code></p>
+<ul>
+<li>假设有两个指针, $\hat{a}$ 在起始端, $\hat{b}$ 在末端, 问题来了: 什么时候 $\hat{a}$ 移动, 什么时候 $\hat{b}$ 移动?</li>
+<li>思考1: 较小的先动 [错误], 反例很容易想到</li>
+</ul>
+</li>
+<li><p><code>一边往另一边跑</code></p>
+<ul>
+<li>  $\hat{a}$ $\hat{b}$ 都在起始端: 什么时候 $\hat{a}$ 移动, 什么时候 $\hat{b}$ 移动?</li>
+</ul>
+<blockquote>
+<p>  $\hat{a}$ 用$i$表示, 一步步移动;   $\hat{b}$ 用$j$表示, 移动有两种情况: nums[j] &lt;=0 or <strong>当前$i$指向点的左边及该点, 完全没有价值时</strong></p>
+</blockquote>
+<ul>
+<li>  $\hat{a}$ $\hat{b}$ 要按照什么步伐移动? </li>
+</ul>
+<blockquote>
+<p>当nums[j] &lt;=0, $j$++即可, 因为只会出现[负 正, 负 负]时, $j$要离开第一个负, 新的$sum$值才会更大</p>
+<p>当前$i$指向点的左边及该点, 完全没有价值时:$j = i +1$</p>
+</blockquote>
+<ul>
+<li>  $\hat{a}$ 和 $\hat{b}$ 之间的值(称作$sum$) 和$max$是什么关系</li>
+</ul>
+<blockquote>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> <span class="built_in">sum</span> &gt; <span class="built_in">max</span>: <span class="built_in">max</span> = <span class="built_in">sum</span></span><br><span class="line"><span class="comment"># 关键在于放的位置</span></span><br></pre></td></tr></table></figure>
+</blockquote>
+<ul>
+<li><p>代码</p>
+<blockquote>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">maxSubArray</span><span class="params">(vector&lt;<span class="keyword">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">int</span> max = <span class="number">-1000000</span>; <span class="comment">//表示历史最大值</span></span><br><span class="line">        <span class="keyword">int</span> len = nums.<span class="built_in">size</span>();</span><br><span class="line">        <span class="keyword">int</span> j = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> sum = <span class="number">0</span>; <span class="comment">//表示当前框内的和</span></span><br><span class="line">        <span class="keyword">int</span> value_j = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>; i&lt;len; i++)&#123;</span><br><span class="line">            <span class="keyword">int</span> value = nums[i];</span><br><span class="line">            <span class="keyword">int</span> value_j = nums[j];</span><br><span class="line">            <span class="keyword">if</span>(value_j&lt;=<span class="number">0</span> &amp;&amp; j&lt;i)&#123; <span class="comment">//当j指向的是负数的时候,需要移动</span></span><br><span class="line">                    j++;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span>(i==j)&#123;</span><br><span class="line">                sum = value;</span><br><span class="line">            &#125;<span class="keyword">else</span>&#123; <span class="comment">//其实就是i&gt;j的情况</span></span><br><span class="line">                <span class="keyword">if</span>(sum+nums[i]&lt;=<span class="number">0</span>)&#123;</span><br><span class="line">                    <span class="keyword">if</span>(i&lt;len<span class="number">-1</span>)&#123;</span><br><span class="line">                        j = i+<span class="number">1</span>;</span><br><span class="line">                    &#125;   <span class="comment">// else的情况就是i已经运行到最后一个位置了, 既然不可取, 那就没必要移动j了                   </span></span><br><span class="line">                &#125;<span class="keyword">else</span>&#123;<span class="comment">//else 说明i的左端有包含的价值, 因为及时加上当前的负数, 总和仍能为正, 所以i继续往前移动即可</span></span><br><span class="line">                    sum+=value;</span><br><span class="line">                &#125; </span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span>(sum&gt;max) max = sum;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> max;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+</blockquote>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>④ <code>DP</code>求解</p>
+<ul>
+<li>正在思考中$Z^{Z^Z}$</li>
+<li>曾经考虑过, 设置相同size的两个Array, 分别记录当前节点的左和右的最大整数和(无果, 可能两个矩阵思路是对的, 但是表达的意思应该不是)</li>
+<li>要不试试设置一个二维的矩阵(size*size) ?</li>
+</ul>
+</li>
+<li><p>⑤ <code>分治法</code></p>
+<ul>
+<li>有空再想中$Z^{Z^Z}$</li>
+</ul>
+</li>
+</ul>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>​    <code>数组</code>的题目很多都是和其他有关系的, <code>双指针</code>呀, <code>DP</code>呀, <code>贪心</code>呀等等, 一定要刷完之后好好总结套路, 事半功倍.</p>
+]]></content>
+      <categories>
+        <category>Coding</category>
+      </categories>
+      <tags>
+        <tag>Leetcode</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>新手PytorchTensor笔记 (一)</title>
+    <url>/2021/08/06/%E6%96%B0%E6%89%8BPytorchTensor%E7%AC%94%E8%AE%B0/</url>
+    <content><![CDATA[<p><em>本篇博客介绍<code>Pytorch</code>中的<code>Tensor</code>概念, 如果你会用<code>Numpy</code>的话, 学习轻而易举</em></p>
+<p>来源官方文档: <em><a href="https://pytorch.org/tutorials/beginner/blitz/tensor_tutorial.html#bridge-to-np-label">https://pytorch.org/tutorials/beginner/blitz/tensor_tutorial.html#bridge-to-np-label</a></em></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="Tensor-Initialization-张量初始化"><a href="#Tensor-Initialization-张量初始化" class="headerlink" title="Tensor Initialization 张量初始化"></a>Tensor Initialization 张量初始化</h2><p><em>总结</em>: </p>
+<ul>
+<li>从普通的数据转变, 直接<code>torch.tensor()</code></li>
+<li>从<code>Numpy</code>导入, <code>torch.from_numpy()</code></li>
+<li>抄其他数据格式, <code>torch.ones/rand_like()</code></li>
+</ul>
+<p>① 从数据中生成<code>Tensor</code>张量</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">data = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>]</span><br><span class="line">t_data = torch.tensor(data)</span><br></pre></td></tr></table></figure>
+
+<p>② 从<code>Numpy</code>中导入</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">np_array = np.array(data)</span><br><span class="line">t_np_array = torch.from_numpy(np_array)</span><br></pre></td></tr></table></figure>
+
+<p>③ 从其他<code>Tensor</code>导入</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">t_ones = torch.ones_like(t_np_array)</span><br><span class="line">t_rand = torch.rand_like(t_ones)</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>One Tensor: </p>
+<p>​    tensor([1, 1, 1, 1])</p>
+<p>​    tensor([0.2233, 0.5553, 0.3333, 0.5542])</p>
+</blockquote>
+<p>④ 随机生成*(需指定样式<code>shape</code>)*</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">shape = (<span class="number">2</span>, <span class="number">3</span>, )</span><br><span class="line">rand_tensor = torch.rand(shape)</span><br><span class="line">ones_tensor = torch.ones(shape)</span><br><span class="line">zeros_tensor = torch.zeros(shape)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 额外讲讲 shape 的事情</span></span><br><span class="line">x = torch.rand((<span class="number">2</span>, <span class="number">3</span>, )) </span><br><span class="line"><span class="comment"># x的shape值是(2, 3, ), 表示这是一个二维数组, 有两行, 三列</span></span><br><span class="line">y = torch.rand((<span class="number">2</span>, ))</span><br><span class="line"><span class="comment"># y的shape是(2, ), 表示的是一个一维数组, 这个一维数组里, 有两个元素</span></span><br><span class="line">z = torch.rand((<span class="number">2</span>, <span class="number">1</span> ))</span><br><span class="line"><span class="comment"># z的shape是(2, 1), 表示的是一个二维数组, 总共两行, 一列(每一行一个元素)</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="Tensor-Attributes-张量属性"><a href="#Tensor-Attributes-张量属性" class="headerlink" title="Tensor Attributes 张量属性"></a>Tensor Attributes 张量属性</h2><ul>
+<li><code>tensor.shape</code></li>
+<li><code>tensor.dtype</code></li>
+<li><code>tensor.devices</code>  result is <em>cpu</em> or <em>gpu</em></li>
+</ul>
+<h2 id="Tensor-Operation"><a href="#Tensor-Operation" class="headerlink" title="Tensor Operation"></a>Tensor Operation</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># We move our tensor to the GPU if available</span></span><br><span class="line"><span class="keyword">if</span> torch.cuda.is_available():</span><br><span class="line">  tensor = tensor.to(<span class="string">&#x27;cuda&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<p><code>torch</code>的用法和<code>Numpy</code>很相近</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">tensor = torch.ones(<span class="number">4</span>, <span class="number">4</span>)</span><br><span class="line">tensor[:,<span class="number">1</span>] = <span class="number">0</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>tensor([ [1., 0., 1., 1.],<br>            [1., 0., 1., 1.],<br>            [1., 0., 1., 1.],<br>            [1., 0., 1., 1.]])</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">t1 = torch.cat([tensor, tensor, tensor], dim=<span class="number">1</span>)</span><br><span class="line"><span class="comment"># 这里cat 将多个tensor按照 *列* 进行组合, 前提是除了 *列* 之外, 其他维度都要一样</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>tensor([ [1., 0., 1., 1., 1., 0., 1., 1., 1., 0., 1., 1.],<br>           [1., 0., 1., 1., 1., 0., 1., 1., 1., 0., 1., 1.],<br>           [1., 0., 1., 1., 1., 0., 1., 1., 1., 0., 1., 1.],<br>           [1., 0., 1., 1., 1., 0., 1., 1., 1., 0., 1., 1.]])</p>
+</blockquote>
+<p>用<code>_</code>下缀会是全体的结果</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">tensor.add_(<span class="number">5</span>) <span class="comment">#是tensor中每一个单元都+5</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="Torch的矩阵乘法"><a href="#Torch的矩阵乘法" class="headerlink" title="Torch的矩阵乘法"></a>Torch的矩阵乘法</h2><p>两种形式: <code>* (torch.mul())</code> <code>torch.mm()</code></p>
+<h3 id="第一种-torch-mul"><a href="#第一种-torch-mul" class="headerlink" title="第一种:  * (torch.mul())"></a>第一种:  <code>* (torch.mul())</code></h3><p><em>element-wise</em>乘法, 支持broadcast</p>
+<blockquote>
+<p>怎么记:</p>
+<ul>
+<li> 方便</li>
+<li>矩阵之间元素对应位置乘是不需要动脑子, 很方便算出来的</li>
+<li>*号也是很方便打的</li>
+<li>乘法的英文是multiply, 为了方便, 缩写成 mul</li>
+</ul>
+</blockquote>
+<h4 id="Broadcast"><a href="#Broadcast" class="headerlink" title="Broadcast"></a>Broadcast</h4><ul>
+<li><p>常数(标量)$k$    内部元素每个与常数$k$ 相乘</p>
+</li>
+<li><p>行向量 $b$-&gt;必须a的<code>最后一个维度</code>和b的<code>最后一个维度</code>相匹配才行</p>
+<ul>
+<li><blockquote>
+<p>eg:</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">a = torch.ones(<span class="number">3</span>, <span class="number">4</span>)</span><br><span class="line">b = torch.Tensor([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>])</span><br><span class="line">tensor([[<span class="number">1.</span>, <span class="number">2.</span>, <span class="number">3.</span>, <span class="number">4.</span>],</span><br><span class="line">        [<span class="number">1.</span>, <span class="number">2.</span>, <span class="number">3.</span>, <span class="number">4.</span>],</span><br><span class="line">        [<span class="number">1.</span>, <span class="number">2.</span>, <span class="number">3.</span>, <span class="number">4.</span>]])</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">a = torch.ones(<span class="number">3</span>, <span class="number">4</span>)</span><br><span class="line">b = torch.Tensor([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>])</span><br><span class="line"><span class="built_in">print</span>(a*b)</span><br><span class="line"></span><br><span class="line">RuntimeError: The size of tensor a (<span class="number">4</span>) must match the size of tensor b (<span class="number">3</span>) at non-singleton dimension <span class="number">1</span></span><br></pre></td></tr></table></figure></blockquote>
+</li>
+</ul>
+</li>
+<li><p>列向量-&gt;那就是两者的<code>第一个维度</code>要相同咯</p>
+<ul>
+<li>结果就是按列用*相乘</li>
+</ul>
+</li>
+<li><p>矩阵的broadcast</p>
+<p>本质上是允许低维度矩阵$A$和高维度矩阵$B$的乘法</p>
+<ul>
+<li>实质上的行动是将高维度$B$理解成一群由以$A$的size()为基本单位$C$的矩阵组成, 每个$C$和$A$相乘element-wise</li>
+</ul>
+<blockquote>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">    a = torch.tensor([[<span class="number">1</span>, <span class="number">2</span>], [<span class="number">2</span>, <span class="number">3</span>]])</span><br><span class="line">    b = torch.tensor([[[<span class="number">1</span>, <span class="number">2</span>], [<span class="number">2</span>, <span class="number">3</span>]], [[-<span class="number">1</span>, -<span class="number">2</span>], [-<span class="number">2</span>, -<span class="number">3</span>]], [[<span class="number">1</span>,<span class="number">1</span>], [<span class="number">1</span>, <span class="number">1</span>]]])</span><br><span class="line">    </span><br><span class="line">torch.Size([<span class="number">2</span>, <span class="number">2</span>])</span><br><span class="line">torch.Size([<span class="number">3</span>, <span class="number">2</span>, <span class="number">2</span>])</span><br><span class="line">tensor([[[ <span class="number">1</span>,  <span class="number">4</span>],</span><br><span class="line">         [ <span class="number">4</span>,  <span class="number">9</span>]],</span><br><span class="line"></span><br><span class="line">        [[-<span class="number">1</span>, -<span class="number">4</span>],</span><br><span class="line">         [-<span class="number">4</span>, -<span class="number">9</span>]],</span><br><span class="line"></span><br><span class="line">        [[ <span class="number">1</span>,  <span class="number">2</span>],</span><br><span class="line">         [ <span class="number">2</span>,  <span class="number">3</span>]]])</span><br></pre></td></tr></table></figure></blockquote>
+</li>
+</ul>
+<h3 id="第二种-torch-mm"><a href="#第二种-torch-mm" class="headerlink" title="第二种 torch.mm()"></a>第二种 <code>torch.mm()</code></h3><p>不支持broadcast-&gt;<a href="#第三种 `torch.matmul`">torch.matmul()</a>支持</p>
+<blockquote>
+<p>怎么记:</p>
+<ul>
+<li>matrix multiply的缩写(double m)</li>
+</ul>
+</blockquote>
+<p>强调: 这是<code>矩阵</code>的乘法, 矩阵的定义是: <code>二维</code>,不是一维也不是多维</p>
+<h3 id="第三种-torch-matmul"><a href="#第三种-torch-matmul" class="headerlink" title="第三种 torch.matmul()"></a>第三种 <code>torch.matmul()</code></h3><p>支持broadcast版的<code>torch.mm()</code></p>
+<blockquote>
+<p>怎么记:</p>
+<ul>
+<li>升级版的mm, 字数字数要多一点了 mm-&gt;mat(trix)mul(tiply)</li>
+</ul>
+</blockquote>
+<p>原理和*一样(将大矩阵分成许多由同小矩阵相同size的矩阵组成, 每个小矩阵和小矩阵进行矩阵相乘), 强调一下, 对应位置的矩阵维度要满足矩阵相乘的条件</p>
+<blockquote>
+<p>eg:</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">a = torch.ones(<span class="number">3</span>,<span class="number">4</span>)</span><br><span class="line">b = torch.ones(<span class="number">5</span>,<span class="number">2</span>,<span class="number">4</span>)</span><br><span class="line"><span class="built_in">print</span>(torch.matmul(a, b).size())</span><br><span class="line"></span><br><span class="line">RuntimeError: mat1 <span class="keyword">and</span> mat2 shapes cannot be multiplied (20x2 <span class="keyword">and</span> 4x3)</span><br><span class="line">  </span><br><span class="line">    a = torch.ones(<span class="number">3</span>,<span class="number">4</span>)</span><br><span class="line">    b = torch.ones(<span class="number">5</span>,<span class="number">4</span>,<span class="number">2</span>)</span><br><span class="line">    <span class="built_in">print</span>(torch.matmul(a, b).size())</span><br><span class="line">    </span><br><span class="line">    torch.Size([<span class="number">5</span>, <span class="number">3</span>, <span class="number">2</span>]) <span class="comment">#本质是5个(4, 2)矩阵和 a矩阵相乘</span></span><br></pre></td></tr></table></figure></blockquote>
+]]></content>
+      <categories>
+        <category>Pytorch</category>
+      </categories>
+      <tags>
+        <tag>Pytorch</tag>
+        <tag>Learning Note</tag>
+        <tag>Muggle</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>新手Pytorch笔记 (二)</title>
+    <url>/2021/08/26/%E6%96%B0%E6%89%8BPytorch%E7%AC%94%E8%AE%B0/</url>
+    <content><![CDATA[<h2 id="基础概念"><a href="#基础概念" class="headerlink" title="基础概念"></a>基础概念</h2><ol>
+<li><p>什么是<a href="https://pypi.org/project/torchvision/0.1.8/">torchvision</a>, torchvision包含了什么, 有什么作用, 跟pytorch版本的对应关系是什么</p>
+<blockquote>
+<p>torchvision是基于Pytorch学习框架，</p>
+<p>包含：</p>
+<ul>
+<li>torchvision.datasets：常见的vision数据集</li>
+<li>torchvision.models:   比较流行的模型</li>
+<li>torchvision.transforms:  常见的图形变幻方式</li>
+<li>torchvision.utils:  图像处理的工具包</li>
+</ul>
+</blockquote>
+</li>
+<li><p>Pytorch中的Tensor</p>
+<p>详情请看<a href="https://xu-shuhao.github.io/2021/08/06/%E6%96%B0%E6%89%8BPytorchTensor%E7%AC%94%E8%AE%B0/">新手PytorchTensor笔记 (一)</a></p>
+</li>
+<li></li>
+</ol>
+]]></content>
+      <categories>
+        <category>Pytorch</category>
+      </categories>
+      <tags>
+        <tag>Pytorch</tag>
+        <tag>Learning Note</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>深入浅出图神经网络笔记</title>
+    <url>/2021/08/24/%E6%B7%B1%E5%85%A5%E6%B5%85%E5%87%BA%E5%9B%BE%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%AC%94%E8%AE%B0/</url>
+    <content><![CDATA[<blockquote>
+<p>本篇博客只在解释作者自己在《深入浅出图神经网络》这本书的笔记，很多部分作者自己懂就不会发不出来，请谅解，如果需要这本书，请到<a href="https://github.com/Xu-Shuhao/PicBedCDN/blob/main/file/%E6%B7%B1%E5%85%A5%E6%B5%85%E5%87%BA%E5%9B%BE%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C.pdf">深入浅出图神经网络</a>自行下载。【注：仅供学习使用】</p>
+</blockquote>
+<h3 id="1-2-图的存储与遍历"><a href="#1-2-图的存储与遍历" class="headerlink" title="1.2　图的存储与遍历"></a>1.2　图的存储与遍历</h3><h4 id="1-2-1-邻接矩阵与关联矩阵"><a href="#1-2-1-邻接矩阵与关联矩阵" class="headerlink" title="1.2.1　邻接矩阵与关联矩阵"></a>1.2.1　邻接矩阵与关联矩阵</h4><p>​    在实际中，邻接矩阵往往会出现大量的<code>0</code>值，因此可以用稀疏矩阵的格式来存储邻接矩阵，这样可以将邻接矩阵的空间复杂度控制在$O(M)$ 的范围内。</p>
+<p>​    一般定义:</p>
+<p>​        $e &lt; n log_n (n&amp;e \ mean \ the \ number\ of\ nodes&amp;edges)$是稀疏图</p>
+<blockquote>
+<p>矩阵的稀疏存储方式:</p>
+<p>​    用<code>邻接表</code>存储<code>点</code>和<code>点</code>之间的关联关系. 在Tensorflow中, 用SparseTensor对象稀疏矩阵, 通过3个对象稠密矩阵indices, values, dense_shape表示稀疏矩阵.</p>
+<ul>
+<li>indices<ul>
+<li>数据类型: int64    二维Tensor对象</li>
+<li>Shape: [N, ndims]</li>
+</ul>
+</li>
+<li>values<ul>
+<li>数据类型:不限(元素值)    一维Tensor对象</li>
+<li>Shape: [N]</li>
+</ul>
+</li>
+<li>dense_shape<ul>
+<li>数据类型: int64    一维Tensor对象</li>
+<li>Shape: [ndims]</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<h3 id="1-3-图的主要四个种类"><a href="#1-3-图的主要四个种类" class="headerlink" title="1.3    图的主要四个种类"></a>1.3    图的主要四个种类</h3><ul>
+<li>同构图(Homogeneous Graph)<ul>
+<li>节点类型和关系类型都<code>仅有一种</code></li>
+</ul>
+</li>
+<li>异构图(Heterogenerous Graph)<ul>
+<li>节点类型or关系类型<code>多余一种</code>-&gt;贴合现实</li>
+</ul>
+</li>
+<li>属性图(Property Graph)<ul>
+<li>节点和关系(Nodes&amp;Relationship) <code>both</code>都有标签<code>Label</code>和<code>Property</code> -&gt;更贴合业务</li>
+</ul>
+</li>
+<li>非显示图(Graph Constructed from Non-relational Data)<ul>
+<li>节点(数据)之间没有显式地定义出关系(非显示图)</li>
+<li>relation 需要<code>特定规则</code>或者<code>计算方式</code>表达出来</li>
+<li>e.g., 比如计算机 3D视觉中的点云数据，如果我们将节点之间的空间距离转化成关系的话，点云数据就成 了图数据。</li>
+</ul>
+</li>
+</ul>
+<h3 id="1-4-图数据的相关任务"><a href="#1-4-图数据的相关任务" class="headerlink" title="1.4   图数据的相关任务"></a>1.4   图数据的相关任务</h3><ul>
+<li>节点层面任务(Node Level)<ul>
+<li>主要包括<code>分类</code>和<code>回归</code>两种任务-&gt;对<code>节点</code>的性质进行预测</li>
+<li>需要考虑到节点和节点之间的关系</li>
+</ul>
+</li>
+<li>边层面任务(Link Level)<ul>
+<li>主要包括<code>边的分类</code>和<code>边的预测任务</code>-&gt;<code>边分类</code>是对<code>边</code>的性质进行预测; <code>边预测</code>是对两个节点之间是否构成<code>边</code>进行预测</li>
+<li><code>边预测任务</code>主要集中在<code>推荐业务</code></li>
+</ul>
+</li>
+<li>图层面任务(Graph Level)<ul>
+<li>主要针对<code>整体结构</code>分析</li>
+<li>图层面的任务主要应用在自然科学研究领域，比如对药物分子的分类、酶的分类等</li>
+</ul>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>DeepLearning</category>
+      </categories>
+      <tags>
+        <tag>Learning Note</tag>
+        <tag>Graph</tag>
       </tags>
   </entry>
 </search>
