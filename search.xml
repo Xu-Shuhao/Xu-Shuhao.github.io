@@ -105,127 +105,103 @@
       </tags>
   </entry>
   <entry>
-    <title>新手PytorchTensor笔记 (一)</title>
-    <url>/2021/08/06/%E6%96%B0%E6%89%8BPytorchTensor%E7%AC%94%E8%AE%B0/</url>
-    <content><![CDATA[<p><em>本篇博客介绍<code>Pytorch</code>中的<code>Tensor</code>概念, 如果你会用<code>Numpy</code>的话, 学习轻而易举</em></p>
-<p>来源官方文档: <em><a href="https://pytorch.org/tutorials/beginner/blitz/tensor_tutorial.html#bridge-to-np-label">https://pytorch.org/tutorials/beginner/blitz/tensor_tutorial.html#bridge-to-np-label</a></em></p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="Tensor-Initialization-张量初始化"><a href="#Tensor-Initialization-张量初始化" class="headerlink" title="Tensor Initialization 张量初始化"></a>Tensor Initialization 张量初始化</h2><p><em>总结</em>: </p>
+    <title>Hexo+Github+Butterfly mac上部署自己的博客</title>
+    <url>/2021/08/06/Hexo-Github-Butterfly-mac%E4%B8%8A%E9%83%A8%E7%BD%B2%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2/</url>
+    <content><![CDATA[<h2 id="Hexo-Github-Butterfly-mac上部署自己的博客"><a href="#Hexo-Github-Butterfly-mac上部署自己的博客" class="headerlink" title="Hexo+Github+Butterfly mac上部署自己的博客"></a>Hexo+Github+Butterfly mac上部署自己的博客</h2><h3 id="Abstract：摘要"><a href="#Abstract：摘要" class="headerlink" title="Abstract：摘要"></a>Abstract：摘要</h3><blockquote>
+<p>本篇博客在继承诸多博主的经验以及总结官方教程之后，详细讲述如何在MacOS环境下利用Hexo框架下的Butterfly主题，在同性交友网站Github上部署自己的博客。</p>
+</blockquote>
+<h3 id="Introduction："><a href="#Introduction：" class="headerlink" title="Introduction："></a>Introduction：</h3><p>在Github上利用Hexo部署自己的博客已经是个常态，（默认看本教程的用户有Github账号），本文会讲述以下内容：</p>
 <ul>
-<li>从普通的数据转变, 直接<code>torch.tensor()</code></li>
-<li>从<code>Numpy</code>导入, <code>torch.from_numpy()</code></li>
-<li>抄其他数据格式, <code>torch.ones/rand_like()</code></li>
-</ul>
-<p>① 从数据中生成<code>Tensor</code>张量</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">data = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>]</span><br><span class="line">t_data = torch.tensor(data)</span><br></pre></td></tr></table></figure>
-
-<p>② 从<code>Numpy</code>中导入</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">np_array = np.array(data)</span><br><span class="line">t_np_array = torch.from_numpy(np_array)</span><br></pre></td></tr></table></figure>
-
-<p>③ 从其他<code>Tensor</code>导入</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">t_ones = torch.ones_like(t_np_array)</span><br><span class="line">t_rand = torch.rand_like(t_ones)</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>One Tensor: </p>
-<p>​    tensor([1, 1, 1, 1])</p>
-<p>​    tensor([0.2233, 0.5553, 0.3333, 0.5542])</p>
-</blockquote>
-<p>④ 随机生成*(需指定样式<code>shape</code>)*</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">shape = (<span class="number">2</span>, <span class="number">3</span>, )</span><br><span class="line">rand_tensor = torch.rand(shape)</span><br><span class="line">ones_tensor = torch.ones(shape)</span><br><span class="line">zeros_tensor = torch.zeros(shape)</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 额外讲讲 shape 的事情</span></span><br><span class="line">x = torch.rand((<span class="number">2</span>, <span class="number">3</span>, )) </span><br><span class="line"><span class="comment"># x的shape值是(2, 3, ), 表示这是一个二维数组, 有两行, 三列</span></span><br><span class="line">y = torch.rand((<span class="number">2</span>, ))</span><br><span class="line"><span class="comment"># y的shape是(2, ), 表示的是一个一维数组, 这个一维数组里, 有两个元素</span></span><br><span class="line">z = torch.rand((<span class="number">2</span>, <span class="number">1</span> ))</span><br><span class="line"><span class="comment"># z的shape是(2, 1), 表示的是一个二维数组, 总共两行, 一列(每一行一个元素)</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="Tensor-Attributes-张量属性"><a href="#Tensor-Attributes-张量属性" class="headerlink" title="Tensor Attributes 张量属性"></a>Tensor Attributes 张量属性</h2><ul>
-<li><code>tensor.shape</code></li>
-<li><code>tensor.dtype</code></li>
-<li><code>tensor.devices</code>  result is <em>cpu</em> or <em>gpu</em></li>
-</ul>
-<h2 id="Tensor-Operation"><a href="#Tensor-Operation" class="headerlink" title="Tensor Operation"></a>Tensor Operation</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># We move our tensor to the GPU if available</span></span><br><span class="line"><span class="keyword">if</span> torch.cuda.is_available():</span><br><span class="line">  tensor = tensor.to(<span class="string">&#x27;cuda&#x27;</span>)</span><br></pre></td></tr></table></figure>
-
-<p><code>torch</code>的用法和<code>Numpy</code>很相近</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">tensor = torch.ones(<span class="number">4</span>, <span class="number">4</span>)</span><br><span class="line">tensor[:,<span class="number">1</span>] = <span class="number">0</span></span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>tensor([ [1., 0., 1., 1.],<br>            [1., 0., 1., 1.],<br>            [1., 0., 1., 1.],<br>            [1., 0., 1., 1.]])</p>
-</blockquote>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">t1 = torch.cat([tensor, tensor, tensor], dim=<span class="number">1</span>)</span><br><span class="line"><span class="comment"># 这里cat 将多个tensor按照 *列* 进行组合, 前提是除了 *列* 之外, 其他维度都要一样</span></span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>tensor([ [1., 0., 1., 1., 1., 0., 1., 1., 1., 0., 1., 1.],<br>           [1., 0., 1., 1., 1., 0., 1., 1., 1., 0., 1., 1.],<br>           [1., 0., 1., 1., 1., 0., 1., 1., 1., 0., 1., 1.],<br>           [1., 0., 1., 1., 1., 0., 1., 1., 1., 0., 1., 1.]])</p>
-</blockquote>
-<p>用<code>_</code>下缀会是全体的结果</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">tensor.add_(<span class="number">5</span>) <span class="comment">#是tensor中每一个单元都+5</span></span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="Torch的矩阵乘法"><a href="#Torch的矩阵乘法" class="headerlink" title="Torch的矩阵乘法"></a>Torch的矩阵乘法</h2><p>两种形式: <code>* (torch.mul())</code> <code>torch.mm()</code></p>
-<h3 id="第一种-torch-mul"><a href="#第一种-torch-mul" class="headerlink" title="第一种:  * (torch.mul())"></a>第一种:  <code>* (torch.mul())</code></h3><p><em>element-wise</em>乘法, 支持broadcast</p>
-<blockquote>
-<p>怎么记:</p>
-<ul>
-<li> 方便</li>
-<li>矩阵之间元素对应位置乘是不需要动脑子, 很方便算出来的</li>
-<li>*号也是很方便打的</li>
-<li>乘法的英文是multiply, 为了方便, 缩写成 mul</li>
-</ul>
-</blockquote>
-<h4 id="Broadcast"><a href="#Broadcast" class="headerlink" title="Broadcast"></a>Broadcast</h4><ul>
-<li><p>常数(标量)$k$    内部元素每个与常数$k$ 相乘</p>
+<li><p>如何在本地电脑上配置Github公钥和私钥</p>
 </li>
-<li><p>行向量 $b$-&gt;必须a的<code>最后一个维度</code>和b的<code>最后一个维度</code>相匹配才行</p>
-<ul>
-<li><blockquote>
-<p>eg:</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">a = torch.ones(<span class="number">3</span>, <span class="number">4</span>)</span><br><span class="line">b = torch.Tensor([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>])</span><br><span class="line">tensor([[<span class="number">1.</span>, <span class="number">2.</span>, <span class="number">3.</span>, <span class="number">4.</span>],</span><br><span class="line">        [<span class="number">1.</span>, <span class="number">2.</span>, <span class="number">3.</span>, <span class="number">4.</span>],</span><br><span class="line">        [<span class="number">1.</span>, <span class="number">2.</span>, <span class="number">3.</span>, <span class="number">4.</span>]])</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">a = torch.ones(<span class="number">3</span>, <span class="number">4</span>)</span><br><span class="line">b = torch.Tensor([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>])</span><br><span class="line"><span class="built_in">print</span>(a*b)</span><br><span class="line"></span><br><span class="line">RuntimeError: The size of tensor a (<span class="number">4</span>) must match the size of tensor b (<span class="number">3</span>) at non-singleton dimension <span class="number">1</span></span><br></pre></td></tr></table></figure></blockquote>
+<li><p>如何创建Github静态托管页面</p>
+</li>
+<li><p>如何部署Hexo在本地</p>
+</li>
+<li><p>如何应用Butterfly主题</p>
+</li>
+<li><p>如何写博客并且发布到Github上</p>
 </li>
 </ul>
-</li>
-<li><p>列向量-&gt;那就是两者的<code>第一个维度</code>要相同咯</p>
-<ul>
-<li>结果就是按列用*相乘</li>
-</ul>
-</li>
-<li><p>矩阵的broadcast</p>
-<p>本质上是允许低维度矩阵$A$和高维度矩阵$B$的乘法</p>
-<ul>
-<li>实质上的行动是将高维度$B$理解成一群由以$A$的size()为基本单位$C$的矩阵组成, 每个$C$和$A$相乘element-wise</li>
-</ul>
+<h3 id="如何在本地电脑上配置Github公钥和私钥"><a href="#如何在本地电脑上配置Github公钥和私钥" class="headerlink" title="如何在本地电脑上配置Github公钥和私钥"></a>如何在本地电脑上配置Github公钥和私钥</h3><p>现在打开电脑的terminal终端</p>
+<h4 id="1、安装Git"><a href="#1、安装Git" class="headerlink" title="1、安装Git"></a>1、安装Git</h4><p>​    如果不确定是否安装过Git，请用</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git --version</span><br></pre></td></tr></table></figure>
+
+<p>​    如果出现`git version 2.31.1Git版本字样，说明安装成功Git了，如果没有安装过，请用</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">brew install git</span><br></pre></td></tr></table></figure>
+
+<p>​    这是用HomeBrew安装Git包，本博客推荐（Homebrew是MacOS的一款包管理器，类似于python中的pip），如果没有安装HomeBrew，请用</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">/bin/bash -c <span class="string">&quot;<span class="subst">$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)</span>&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="2、生成SSH密钥文件"><a href="#2、生成SSH密钥文件" class="headerlink" title="2、生成SSH密钥文件"></a>2、生成SSH密钥文件</h4><p>​    这是为了以后你每次将博客推送到Github，不需要重复输入用户名和密码。</p>
+<h5 id="a-检查是否已经有SSH-Key了"><a href="#a-检查是否已经有SSH-Key了" class="headerlink" title="a. 检查是否已经有SSH Key了"></a>a. 检查是否已经有SSH Key了</h5><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> ~/.ssh</span><br><span class="line">ls</span><br></pre></td></tr></table></figure>
+
+<p>​    如果文件存在，那就不需要配置SSH密钥，直接跳过这一步骤，如果没有，则在命令行输入：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git config --global user.name <span class="string">&quot;你的Github用户名&quot;</span></span><br><span class="line">git config --global user.email <span class="string">&quot;你的Github注册邮箱&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>​    随后生成SSH密钥文件</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ssh-keygen -t rsa -C <span class="string">&quot;你的Github注册邮箱&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>​    系统会问你三次密码：比如推送Git时要需要的代码等，个人建议直接三次回车，省得麻烦。</p>
+<p>​    随后系统会告诉你已经成功生成了id_rsa&amp;id_rsa.pub文件，输入</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">cat ~/.ssh/id_rsa.pub</span><br></pre></td></tr></table></figure>
+
+<p>​    将id_rsa.pub在terminal显示，复制该内容<code>SHA256:xxx</code>到剪切板，随后打开Github，在<code>Setting</code>-&gt;<code>SSH and GPG keys</code>点击<code>New SSH key</code>将剪切板的内容复制到<code>Key</code>上去，<code>Title</code>部分取名容易知道这是哪台电脑的SSH即可. 比如 <code>SimonDeMac</code></p>
+<h4 id="3-验证是否成功"><a href="#3-验证是否成功" class="headerlink" title="3 验证是否成功"></a>3 验证是否成功</h4><p>输入</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ssh -T git@github.com</span><br></pre></td></tr></table></figure>
+
+<p>​    进行验证,如果出现<code>Hi 你的Github用户名! You&#39;ve successfully authenticated, but GitHub does not provide shell access.</code>说明验成功了.</p>
+<h3 id="如何创建Github静态托管页面"><a href="#如何创建Github静态托管页面" class="headerlink" title="如何创建Github静态托管页面"></a>如何创建Github静态托管页面</h3><p>​    新建一个Repositoriy, 名字是<code>你的用户名.github.io</code>, 仓库要选择<code>Public</code>. 至于协议之类的, 都随意.</p>
+<h3 id="如何部署Hexo在电脑本地"><a href="#如何部署Hexo在电脑本地" class="headerlink" title="如何部署Hexo在电脑本地"></a>如何部署Hexo在电脑本地</h3><h4 id="1-查验是否安装Node-js"><a href="#1-查验是否安装Node-js" class="headerlink" title="1 查验是否安装Node.js"></a>1 查验是否安装Node.js</h4><p>​    Hexo是基于Node.js框架的, 输入<code>node --v</code>如果出现版本号, 就是已经安装过了, 如果没有, 请</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">brew install node</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-用npm-安装Hexo"><a href="#2-用npm-安装Hexo" class="headerlink" title="2 用npm 安装Hexo"></a>2 用npm 安装Hexo</h4><p>​    npm是node,js的包管理工具, 输入<code>npm -v</code>查看是否安装成功, 随后用npm安装Hexo</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm install -g hexo-cli</span><br></pre></td></tr></table></figure>
+
+<h4 id="3-初始化博客目录"><a href="#3-初始化博客目录" class="headerlink" title="3 初始化博客目录"></a>3 初始化博客目录</h4><p>​    比如说你想在<code>/Users/用户名/Documents/GithubBlog</code>这个目录下建立博客, 先将命令行切过去</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> /Users/你的用户名/Documents</span><br></pre></td></tr></table></figure>
+
+<p>​    然后</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">mkdir GithubBlog</span><br></pre></td></tr></table></figure>
+
+<p>​    创建目录, 再<code>cd GithubBlog</code>进入,这时候你的目录是<code>/Users/用户名/Documents/GithubBlog</code></p>
+<p>​    下一步, 初始化博客</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hexo init</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="4-如何应用Butterfly主题"><a href="#4-如何应用Butterfly主题" class="headerlink" title="4 如何应用Butterfly主题"></a>4 如何应用Butterfly主题</h3><h5 id="a-在刚才文件夹目录下-输入"><a href="#a-在刚才文件夹目录下-输入" class="headerlink" title="a 在刚才文件夹目录下, 输入"></a>a 在刚才文件夹目录下, 输入</h5><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git <span class="built_in">clone</span> -b master https://github.com/jerryc127/hexo-theme-butterfly.git themes/Butterfly</span><br></pre></td></tr></table></figure>
+
+<p>​    启用Butterfly, vim 根目录的<code>_config,yml</code>文件, 将<code>theme: landscape</code> 改成 <code>theme: Butterfly</code></p>
+<p>​    为了主题的平滑升级, 把主题默认配置文件<code>themes/Butterfly/_config.yml</code>复制到 Hexo 工作目录下的<code>themes/source/_data/butterfly.yml</code>，如果<code>source/_data</code>的目录不存在那就创建一个。</p>
+<p>​    如果创建了<code>butterfly.yml</code>, 它将会替换主题默认配置文件<code>themes/Butterfly/_config.yml</code>里的配置项 (不是合并而是替换), 之后就只需要通过<code>git pull</code>的方式平滑地升级<code> theme-butterfly</code>了。</p>
+<h5 id="b-解决Bug"><a href="#b-解决Bug" class="headerlink" title="b 解决Bug"></a>b 解决Bug</h5><p>出现时</p>
 <blockquote>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">    a = torch.tensor([[<span class="number">1</span>, <span class="number">2</span>], [<span class="number">2</span>, <span class="number">3</span>]])</span><br><span class="line">    b = torch.tensor([[[<span class="number">1</span>, <span class="number">2</span>], [<span class="number">2</span>, <span class="number">3</span>]], [[-<span class="number">1</span>, -<span class="number">2</span>], [-<span class="number">2</span>, -<span class="number">3</span>]], [[<span class="number">1</span>,<span class="number">1</span>], [<span class="number">1</span>, <span class="number">1</span>]]])</span><br><span class="line">    </span><br><span class="line">torch.Size([<span class="number">2</span>, <span class="number">2</span>])</span><br><span class="line">torch.Size([<span class="number">3</span>, <span class="number">2</span>, <span class="number">2</span>])</span><br><span class="line">tensor([[[ <span class="number">1</span>,  <span class="number">4</span>],</span><br><span class="line">         [ <span class="number">4</span>,  <span class="number">9</span>]],</span><br><span class="line"></span><br><span class="line">        [[-<span class="number">1</span>, -<span class="number">4</span>],</span><br><span class="line">         [-<span class="number">4</span>, -<span class="number">9</span>]],</span><br><span class="line"></span><br><span class="line">        [[ <span class="number">1</span>,  <span class="number">2</span>],</span><br><span class="line">         [ <span class="number">2</span>,  <span class="number">3</span>]]])</span><br></pre></td></tr></table></figure></blockquote>
-</li>
-</ul>
-<h3 id="第二种-torch-mm"><a href="#第二种-torch-mm" class="headerlink" title="第二种 torch.mm()"></a>第二种 <code>torch.mm()</code></h3><p>不支持broadcast-&gt;<a href="#第三种 `torch.matmul`">torch.matmul()</a>支持</p>
-<blockquote>
-<p>怎么记:</p>
-<ul>
-<li>matrix multiply的缩写(double m)</li>
-</ul>
+<p>extends includes/layout.pug block content #recent-posts.recent-posts include includes/recent-posts.pug include includes/pagination.pug #aside_content.aside_content include includes/aside.pug</p>
 </blockquote>
-<p>强调: 这是<code>矩阵</code>的乘法, 矩阵的定义是: <code>二维</code>,不是一维也不是多维</p>
-<h3 id="第三种-torch-matmul"><a href="#第三种-torch-matmul" class="headerlink" title="第三种 torch.matmul()"></a>第三种 <code>torch.matmul()</code></h3><p>支持broadcast版的<code>torch.mm()</code></p>
-<blockquote>
-<p>怎么记:</p>
-<ul>
-<li>升级版的mm, 字数字数要多一点了 mm-&gt;mat(trix)mul(tiply)</li>
-</ul>
-</blockquote>
-<p>原理和*一样(将大矩阵分成许多由同小矩阵相同size的矩阵组成, 每个小矩阵和小矩阵进行矩阵相乘), 强调一下, 对应位置的矩阵维度要满足矩阵相乘的条件</p>
-<blockquote>
-<p>eg:</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">a = torch.ones(<span class="number">3</span>,<span class="number">4</span>)</span><br><span class="line">b = torch.ones(<span class="number">5</span>,<span class="number">2</span>,<span class="number">4</span>)</span><br><span class="line"><span class="built_in">print</span>(torch.matmul(a, b).size())</span><br><span class="line"></span><br><span class="line">RuntimeError: mat1 <span class="keyword">and</span> mat2 shapes cannot be multiplied (20x2 <span class="keyword">and</span> 4x3)</span><br><span class="line">  </span><br><span class="line">    a = torch.ones(<span class="number">3</span>,<span class="number">4</span>)</span><br><span class="line">    b = torch.ones(<span class="number">5</span>,<span class="number">4</span>,<span class="number">2</span>)</span><br><span class="line">    <span class="built_in">print</span>(torch.matmul(a, b).size())</span><br><span class="line">    </span><br><span class="line">    torch.Size([<span class="number">5</span>, <span class="number">3</span>, <span class="number">2</span>]) <span class="comment">#本质是5个(4, 2)矩阵和 a矩阵相乘</span></span><br></pre></td></tr></table></figure></blockquote>
+<p>请使用</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm install hexo-renderer-pug hexo-renderer-stylus --save</span><br></pre></td></tr></table></figure>
+
+<h5 id="c-进行-config-yml配置"><a href="#c-进行-config-yml配置" class="headerlink" title="c 进行_config.yml配置"></a>c 进行<code>_config.yml</code>配置</h5><p>​    在<code>_config.yml</code>中更新<code>deploy</code>内容:</p>
+<figure class="highlight yml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Deployment</span></span><br><span class="line"><span class="comment">## Docs: https://hexo.io/docs/one-command-deployment</span></span><br><span class="line"><span class="attr">deploy:</span></span><br><span class="line">  <span class="attr">type:</span> <span class="string">git</span></span><br><span class="line">  <span class="attr">repo:</span> <span class="string">https://github.com/Github用户名/Github用户名.github.io.git</span></span><br><span class="line">  <span class="attr">branch:</span> <span class="string">master</span></span><br></pre></td></tr></table></figure>
+
+<p>​    因为你选择的是<code>master</code>分支, 所以去<code>Github</code>, <code>你的用户名.github.io</code>这个仓库中, 打开<code>Setting</code>-&gt; <code>Pages</code>-&gt;<code>Source Branch: 从main改成master</code></p>
+<h3 id="5-如何写博客并且发布到Github上"><a href="#5-如何写博客并且发布到Github上" class="headerlink" title="5 如何写博客并且发布到Github上"></a>5 如何写博客并且发布到Github上</h3><p>​    你的博客都在<code>sourc/_post</code>中, <code>hexo -n blogName.md</code>, 用<code>Typora</code>开始写作吧, 写完之后, 在命令行输入</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hexo clean</span><br><span class="line">hexo g</span><br><span class="line">hexo d</span><br></pre></td></tr></table></figure>
+
+<p>​    即可.</p>
+<p>现在如果你用hexo d出现问题 <em>remote: Support for password authentication was removed on August 13, 2021. Please use a personal ac</em> 那么请在<code>https://github.com/settings/profile</code>-&gt;<code>Developer settings</code>-&gt;<code>Personal access tokens</code> 生成相对应的token, 复制并用东西保存起来这个<code>Token</code>因为只会出现一次.</p>
+<p>再次输入github用户名和密码时, 密码部分用这个<code>Token</code>替代即可.</p>
+<hr>
+<p>关于美化部分, 打算参考这篇文章 [美化Butterfly][<a href="https://innerspace-hs.github.io/2020/11/07/butterfly%E7%BE%8E%E5%8C%96hexo%E5%8D%9A%E5%AE%A2/]">https://innerspace-hs.github.io/2020/11/07/butterfly%E7%BE%8E%E5%8C%96hexo%E5%8D%9A%E5%AE%A2/]</a></p>
+<p>[][]</p>
 ]]></content>
       <categories>
-        <category>Pytorch</category>
+        <category>Blog</category>
       </categories>
       <tags>
-        <tag>Pytorch</tag>
-        <tag>Learning Note</tag>
-        <tag>Muggle</tag>
+        <tag>Hexo</tag>
+        <tag>Butterfly</tag>
       </tags>
   </entry>
   <entry>
@@ -404,103 +380,157 @@
       </tags>
   </entry>
   <entry>
-    <title>Hexo+Github+Butterfly mac上部署自己的博客</title>
-    <url>/2021/08/06/Hexo-Github-Butterfly-mac%E4%B8%8A%E9%83%A8%E7%BD%B2%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2/</url>
-    <content><![CDATA[<h2 id="Hexo-Github-Butterfly-mac上部署自己的博客"><a href="#Hexo-Github-Butterfly-mac上部署自己的博客" class="headerlink" title="Hexo+Github+Butterfly mac上部署自己的博客"></a>Hexo+Github+Butterfly mac上部署自己的博客</h2><h3 id="Abstract：摘要"><a href="#Abstract：摘要" class="headerlink" title="Abstract：摘要"></a>Abstract：摘要</h3><blockquote>
-<p>本篇博客在继承诸多博主的经验以及总结官方教程之后，详细讲述如何在MacOS环境下利用Hexo框架下的Butterfly主题，在同性交友网站Github上部署自己的博客。</p>
-</blockquote>
-<h3 id="Introduction："><a href="#Introduction：" class="headerlink" title="Introduction："></a>Introduction：</h3><p>在Github上利用Hexo部署自己的博客已经是个常态，（默认看本教程的用户有Github账号），本文会讲述以下内容：</p>
+    <title>新手PytorchTensor笔记 (一)</title>
+    <url>/2021/08/06/%E6%96%B0%E6%89%8BPytorchTensor%E7%AC%94%E8%AE%B0/</url>
+    <content><![CDATA[<p><em>本篇博客介绍<code>Pytorch</code>中的<code>Tensor</code>概念, 如果你会用<code>Numpy</code>的话, 学习轻而易举</em></p>
+<p>来源官方文档: <em><a href="https://pytorch.org/tutorials/beginner/blitz/tensor_tutorial.html#bridge-to-np-label">https://pytorch.org/tutorials/beginner/blitz/tensor_tutorial.html#bridge-to-np-label</a></em></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="Tensor-Initialization-张量初始化"><a href="#Tensor-Initialization-张量初始化" class="headerlink" title="Tensor Initialization 张量初始化"></a>Tensor Initialization 张量初始化</h2><p><em>总结</em>: </p>
 <ul>
-<li><p>如何在本地电脑上配置Github公钥和私钥</p>
+<li>从普通的数据转变, 直接<code>torch.tensor()</code></li>
+<li>从<code>Numpy</code>导入, <code>torch.from_numpy()</code></li>
+<li>抄其他数据格式, <code>torch.ones/rand_like()</code></li>
+</ul>
+<p>① 从数据中生成<code>Tensor</code>张量</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">data = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>]</span><br><span class="line">t_data = torch.tensor(data)</span><br></pre></td></tr></table></figure>
+
+<p>② 从<code>Numpy</code>中导入</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">np_array = np.array(data)</span><br><span class="line">t_np_array = torch.from_numpy(np_array)</span><br></pre></td></tr></table></figure>
+
+<p>③ 从其他<code>Tensor</code>导入</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">t_ones = torch.ones_like(t_np_array)</span><br><span class="line">t_rand = torch.rand_like(t_ones)</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>One Tensor: </p>
+<p>​    tensor([1, 1, 1, 1])</p>
+<p>​    tensor([0.2233, 0.5553, 0.3333, 0.5542])</p>
+</blockquote>
+<p>④ 随机生成*(需指定样式<code>shape</code>)*</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">shape = (<span class="number">2</span>, <span class="number">3</span>, )</span><br><span class="line">rand_tensor = torch.rand(shape)</span><br><span class="line">ones_tensor = torch.ones(shape)</span><br><span class="line">zeros_tensor = torch.zeros(shape)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 额外讲讲 shape 的事情</span></span><br><span class="line">x = torch.rand((<span class="number">2</span>, <span class="number">3</span>, )) </span><br><span class="line"><span class="comment"># x的shape值是(2, 3, ), 表示这是一个二维数组, 有两行, 三列</span></span><br><span class="line">y = torch.rand((<span class="number">2</span>, ))</span><br><span class="line"><span class="comment"># y的shape是(2, ), 表示的是一个一维数组, 这个一维数组里, 有两个元素</span></span><br><span class="line">z = torch.rand((<span class="number">2</span>, <span class="number">1</span> ))</span><br><span class="line"><span class="comment"># z的shape是(2, 1), 表示的是一个二维数组, 总共两行, 一列(每一行一个元素)</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="Tensor-Attributes-张量属性"><a href="#Tensor-Attributes-张量属性" class="headerlink" title="Tensor Attributes 张量属性"></a>Tensor Attributes 张量属性</h2><ul>
+<li><code>tensor.shape</code></li>
+<li><code>tensor.dtype</code></li>
+<li><code>tensor.devices</code>  result is <em>cpu</em> or <em>gpu</em></li>
+</ul>
+<h2 id="Tensor-Operation"><a href="#Tensor-Operation" class="headerlink" title="Tensor Operation"></a>Tensor Operation</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># We move our tensor to the GPU if available</span></span><br><span class="line"><span class="keyword">if</span> torch.cuda.is_available():</span><br><span class="line">  tensor = tensor.to(<span class="string">&#x27;cuda&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<p><code>torch</code>的用法和<code>Numpy</code>很相近</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">tensor = torch.ones(<span class="number">4</span>, <span class="number">4</span>)</span><br><span class="line">tensor[:,<span class="number">1</span>] = <span class="number">0</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>tensor([ [1., 0., 1., 1.],<br>            [1., 0., 1., 1.],<br>            [1., 0., 1., 1.],<br>            [1., 0., 1., 1.]])</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">t1 = torch.cat([tensor, tensor, tensor], dim=<span class="number">1</span>)</span><br><span class="line"><span class="comment"># 这里cat 将多个tensor按照 *列* 进行组合, 前提是除了 *列* 之外, 其他维度都要一样</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>tensor([ [1., 0., 1., 1., 1., 0., 1., 1., 1., 0., 1., 1.],<br>           [1., 0., 1., 1., 1., 0., 1., 1., 1., 0., 1., 1.],<br>           [1., 0., 1., 1., 1., 0., 1., 1., 1., 0., 1., 1.],<br>           [1., 0., 1., 1., 1., 0., 1., 1., 1., 0., 1., 1.]])</p>
+</blockquote>
+<p>用<code>_</code>下缀会是全体的结果</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">tensor.add_(<span class="number">5</span>) <span class="comment">#是tensor中每一个单元都+5</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="Torch的矩阵乘法"><a href="#Torch的矩阵乘法" class="headerlink" title="Torch的矩阵乘法"></a>Torch的矩阵乘法</h2><p>两种形式: <code>* (torch.mul())</code> <code>torch.mm()</code></p>
+<h3 id="第一种-torch-mul"><a href="#第一种-torch-mul" class="headerlink" title="第一种:  * (torch.mul())"></a>第一种:  <code>* (torch.mul())</code></h3><p><em>element-wise</em>乘法, 支持broadcast</p>
+<blockquote>
+<p>怎么记:</p>
+<ul>
+<li> 方便</li>
+<li>矩阵之间元素对应位置乘是不需要动脑子, 很方便算出来的</li>
+<li>*号也是很方便打的</li>
+<li>乘法的英文是multiply, 为了方便, 缩写成 mul</li>
+</ul>
+</blockquote>
+<h4 id="Broadcast"><a href="#Broadcast" class="headerlink" title="Broadcast"></a>Broadcast</h4><ul>
+<li><p>常数(标量)$k$    内部元素每个与常数$k$ 相乘</p>
 </li>
-<li><p>如何创建Github静态托管页面</p>
-</li>
-<li><p>如何部署Hexo在本地</p>
-</li>
-<li><p>如何应用Butterfly主题</p>
-</li>
-<li><p>如何写博客并且发布到Github上</p>
+<li><p>行向量 $b$-&gt;必须a的<code>最后一个维度</code>和b的<code>最后一个维度</code>相匹配才行</p>
+<ul>
+<li><blockquote>
+<p>eg:</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">a = torch.ones(<span class="number">3</span>, <span class="number">4</span>)</span><br><span class="line">b = torch.Tensor([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>])</span><br><span class="line">tensor([[<span class="number">1.</span>, <span class="number">2.</span>, <span class="number">3.</span>, <span class="number">4.</span>],</span><br><span class="line">        [<span class="number">1.</span>, <span class="number">2.</span>, <span class="number">3.</span>, <span class="number">4.</span>],</span><br><span class="line">        [<span class="number">1.</span>, <span class="number">2.</span>, <span class="number">3.</span>, <span class="number">4.</span>]])</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">a = torch.ones(<span class="number">3</span>, <span class="number">4</span>)</span><br><span class="line">b = torch.Tensor([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>])</span><br><span class="line"><span class="built_in">print</span>(a*b)</span><br><span class="line"></span><br><span class="line">RuntimeError: The size of tensor a (<span class="number">4</span>) must match the size of tensor b (<span class="number">3</span>) at non-singleton dimension <span class="number">1</span></span><br></pre></td></tr></table></figure></blockquote>
 </li>
 </ul>
-<h3 id="如何在本地电脑上配置Github公钥和私钥"><a href="#如何在本地电脑上配置Github公钥和私钥" class="headerlink" title="如何在本地电脑上配置Github公钥和私钥"></a>如何在本地电脑上配置Github公钥和私钥</h3><p>现在打开电脑的terminal终端</p>
-<h4 id="1、安装Git"><a href="#1、安装Git" class="headerlink" title="1、安装Git"></a>1、安装Git</h4><p>​    如果不确定是否安装过Git，请用</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git --version</span><br></pre></td></tr></table></figure>
-
-<p>​    如果出现`git version 2.31.1Git版本字样，说明安装成功Git了，如果没有安装过，请用</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">brew install git</span><br></pre></td></tr></table></figure>
-
-<p>​    这是用HomeBrew安装Git包，本博客推荐（Homebrew是MacOS的一款包管理器，类似于python中的pip），如果没有安装HomeBrew，请用</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">/bin/bash -c <span class="string">&quot;<span class="subst">$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)</span>&quot;</span></span><br></pre></td></tr></table></figure>
-
-<h4 id="2、生成SSH密钥文件"><a href="#2、生成SSH密钥文件" class="headerlink" title="2、生成SSH密钥文件"></a>2、生成SSH密钥文件</h4><p>​    这是为了以后你每次将博客推送到Github，不需要重复输入用户名和密码。</p>
-<h5 id="a-检查是否已经有SSH-Key了"><a href="#a-检查是否已经有SSH-Key了" class="headerlink" title="a. 检查是否已经有SSH Key了"></a>a. 检查是否已经有SSH Key了</h5><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> ~/.ssh</span><br><span class="line">ls</span><br></pre></td></tr></table></figure>
-
-<p>​    如果文件存在，那就不需要配置SSH密钥，直接跳过这一步骤，如果没有，则在命令行输入：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git config --global user.name <span class="string">&quot;你的Github用户名&quot;</span></span><br><span class="line">git config --global user.email <span class="string">&quot;你的Github注册邮箱&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>​    随后生成SSH密钥文件</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ssh-keygen -t rsa -C <span class="string">&quot;你的Github注册邮箱&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>​    系统会问你三次密码：比如推送Git时要需要的代码等，个人建议直接三次回车，省得麻烦。</p>
-<p>​    随后系统会告诉你已经成功生成了id_rsa&amp;id_rsa.pub文件，输入</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">cat ~/.ssh/id_rsa.pub</span><br></pre></td></tr></table></figure>
-
-<p>​    将id_rsa.pub在terminal显示，复制该内容<code>SHA256:xxx</code>到剪切板，随后打开Github，在<code>Setting</code>-&gt;<code>SSH and GPG keys</code>点击<code>New SSH key</code>将剪切板的内容复制到<code>Key</code>上去，<code>Title</code>部分取名容易知道这是哪台电脑的SSH即可. 比如 <code>SimonDeMac</code></p>
-<h4 id="3-验证是否成功"><a href="#3-验证是否成功" class="headerlink" title="3 验证是否成功"></a>3 验证是否成功</h4><p>输入</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ssh -T git@github.com</span><br></pre></td></tr></table></figure>
-
-<p>​    进行验证,如果出现<code>Hi 你的Github用户名! You&#39;ve successfully authenticated, but GitHub does not provide shell access.</code>说明验成功了.</p>
-<h3 id="如何创建Github静态托管页面"><a href="#如何创建Github静态托管页面" class="headerlink" title="如何创建Github静态托管页面"></a>如何创建Github静态托管页面</h3><p>​    新建一个Repositoriy, 名字是<code>你的用户名.github.io</code>, 仓库要选择<code>Public</code>. 至于协议之类的, 都随意.</p>
-<h3 id="如何部署Hexo在电脑本地"><a href="#如何部署Hexo在电脑本地" class="headerlink" title="如何部署Hexo在电脑本地"></a>如何部署Hexo在电脑本地</h3><h4 id="1-查验是否安装Node-js"><a href="#1-查验是否安装Node-js" class="headerlink" title="1 查验是否安装Node.js"></a>1 查验是否安装Node.js</h4><p>​    Hexo是基于Node.js框架的, 输入<code>node --v</code>如果出现版本号, 就是已经安装过了, 如果没有, 请</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">brew install node</span><br></pre></td></tr></table></figure>
-
-<h4 id="2-用npm-安装Hexo"><a href="#2-用npm-安装Hexo" class="headerlink" title="2 用npm 安装Hexo"></a>2 用npm 安装Hexo</h4><p>​    npm是node,js的包管理工具, 输入<code>npm -v</code>查看是否安装成功, 随后用npm安装Hexo</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm install -g hexo-cli</span><br></pre></td></tr></table></figure>
-
-<h4 id="3-初始化博客目录"><a href="#3-初始化博客目录" class="headerlink" title="3 初始化博客目录"></a>3 初始化博客目录</h4><p>​    比如说你想在<code>/Users/用户名/Documents/GithubBlog</code>这个目录下建立博客, 先将命令行切过去</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> /Users/你的用户名/Documents</span><br></pre></td></tr></table></figure>
-
-<p>​    然后</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">mkdir GithubBlog</span><br></pre></td></tr></table></figure>
-
-<p>​    创建目录, 再<code>cd GithubBlog</code>进入,这时候你的目录是<code>/Users/用户名/Documents/GithubBlog</code></p>
-<p>​    下一步, 初始化博客</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hexo init</span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="4-如何应用Butterfly主题"><a href="#4-如何应用Butterfly主题" class="headerlink" title="4 如何应用Butterfly主题"></a>4 如何应用Butterfly主题</h3><h5 id="a-在刚才文件夹目录下-输入"><a href="#a-在刚才文件夹目录下-输入" class="headerlink" title="a 在刚才文件夹目录下, 输入"></a>a 在刚才文件夹目录下, 输入</h5><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git <span class="built_in">clone</span> -b master https://github.com/jerryc127/hexo-theme-butterfly.git themes/Butterfly</span><br></pre></td></tr></table></figure>
-
-<p>​    启用Butterfly, vim 根目录的<code>_config,yml</code>文件, 将<code>theme: landscape</code> 改成 <code>theme: Butterfly</code></p>
-<p>​    为了主题的平滑升级, 把主题默认配置文件<code>themes/Butterfly/_config.yml</code>复制到 Hexo 工作目录下的<code>themes/source/_data/butterfly.yml</code>，如果<code>source/_data</code>的目录不存在那就创建一个。</p>
-<p>​    如果创建了<code>butterfly.yml</code>, 它将会替换主题默认配置文件<code>themes/Butterfly/_config.yml</code>里的配置项 (不是合并而是替换), 之后就只需要通过<code>git pull</code>的方式平滑地升级<code> theme-butterfly</code>了。</p>
-<h5 id="b-解决Bug"><a href="#b-解决Bug" class="headerlink" title="b 解决Bug"></a>b 解决Bug</h5><p>出现时</p>
+</li>
+<li><p>列向量-&gt;那就是两者的<code>第一个维度</code>要相同咯</p>
+<ul>
+<li>结果就是按列用*相乘</li>
+</ul>
+</li>
+<li><p>矩阵的broadcast</p>
+<p>本质上是允许低维度矩阵$A$和高维度矩阵$B$的乘法</p>
+<ul>
+<li>实质上的行动是将高维度$B$理解成一群由以$A$的size()为基本单位$C$的矩阵组成, 每个$C$和$A$相乘element-wise</li>
+</ul>
 <blockquote>
-<p>extends includes/layout.pug block content #recent-posts.recent-posts include includes/recent-posts.pug include includes/pagination.pug #aside_content.aside_content include includes/aside.pug</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">    a = torch.tensor([[<span class="number">1</span>, <span class="number">2</span>], [<span class="number">2</span>, <span class="number">3</span>]])</span><br><span class="line">    b = torch.tensor([[[<span class="number">1</span>, <span class="number">2</span>], [<span class="number">2</span>, <span class="number">3</span>]], [[-<span class="number">1</span>, -<span class="number">2</span>], [-<span class="number">2</span>, -<span class="number">3</span>]], [[<span class="number">1</span>,<span class="number">1</span>], [<span class="number">1</span>, <span class="number">1</span>]]])</span><br><span class="line">    </span><br><span class="line">torch.Size([<span class="number">2</span>, <span class="number">2</span>])</span><br><span class="line">torch.Size([<span class="number">3</span>, <span class="number">2</span>, <span class="number">2</span>])</span><br><span class="line">tensor([[[ <span class="number">1</span>,  <span class="number">4</span>],</span><br><span class="line">         [ <span class="number">4</span>,  <span class="number">9</span>]],</span><br><span class="line"></span><br><span class="line">        [[-<span class="number">1</span>, -<span class="number">4</span>],</span><br><span class="line">         [-<span class="number">4</span>, -<span class="number">9</span>]],</span><br><span class="line"></span><br><span class="line">        [[ <span class="number">1</span>,  <span class="number">2</span>],</span><br><span class="line">         [ <span class="number">2</span>,  <span class="number">3</span>]]])</span><br></pre></td></tr></table></figure></blockquote>
+</li>
+</ul>
+<h3 id="第二种-torch-mm"><a href="#第二种-torch-mm" class="headerlink" title="第二种 torch.mm()"></a>第二种 <code>torch.mm()</code></h3><p>不支持broadcast-&gt;<a href="#第三种 `torch.matmul`">torch.matmul()</a>支持</p>
+<blockquote>
+<p>怎么记:</p>
+<ul>
+<li>matrix multiply的缩写(double m)</li>
+</ul>
 </blockquote>
-<p>请使用</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm install hexo-renderer-pug hexo-renderer-stylus --save</span><br></pre></td></tr></table></figure>
-
-<h5 id="c-进行-config-yml配置"><a href="#c-进行-config-yml配置" class="headerlink" title="c 进行_config.yml配置"></a>c 进行<code>_config.yml</code>配置</h5><p>​    在<code>_config.yml</code>中更新<code>deploy</code>内容:</p>
-<figure class="highlight yml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Deployment</span></span><br><span class="line"><span class="comment">## Docs: https://hexo.io/docs/one-command-deployment</span></span><br><span class="line"><span class="attr">deploy:</span></span><br><span class="line">  <span class="attr">type:</span> <span class="string">git</span></span><br><span class="line">  <span class="attr">repo:</span> <span class="string">https://github.com/Github用户名/Github用户名.github.io.git</span></span><br><span class="line">  <span class="attr">branch:</span> <span class="string">master</span></span><br></pre></td></tr></table></figure>
-
-<p>​    因为你选择的是<code>master</code>分支, 所以去<code>Github</code>, <code>你的用户名.github.io</code>这个仓库中, 打开<code>Setting</code>-&gt; <code>Pages</code>-&gt;<code>Source Branch: 从main改成master</code></p>
-<h3 id="5-如何写博客并且发布到Github上"><a href="#5-如何写博客并且发布到Github上" class="headerlink" title="5 如何写博客并且发布到Github上"></a>5 如何写博客并且发布到Github上</h3><p>​    你的博客都在<code>sourc/_post</code>中, <code>hexo -n blogName.md</code>, 用<code>Typora</code>开始写作吧, 写完之后, 在命令行输入</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hexo clean</span><br><span class="line">hexo g</span><br><span class="line">hexo d</span><br></pre></td></tr></table></figure>
-
-<p>​    即可.</p>
-<p>现在如果你用hexo d出现问题 <em>remote: Support for password authentication was removed on August 13, 2021. Please use a personal ac</em> 那么请在<code>https://github.com/settings/profile</code>-&gt;<code>Developer settings</code>-&gt;<code>Personal access tokens</code> 生成相对应的token, 复制并用东西保存起来这个<code>Token</code>因为只会出现一次.</p>
-<p>再次输入github用户名和密码时, 密码部分用这个<code>Token</code>替代即可.</p>
-<hr>
-<p>关于美化部分, 打算参考这篇文章 [美化Butterfly][<a href="https://innerspace-hs.github.io/2020/11/07/butterfly%E7%BE%8E%E5%8C%96hexo%E5%8D%9A%E5%AE%A2/]">https://innerspace-hs.github.io/2020/11/07/butterfly%E7%BE%8E%E5%8C%96hexo%E5%8D%9A%E5%AE%A2/]</a></p>
-<p>[][]</p>
+<p>强调: 这是<code>矩阵</code>的乘法, 矩阵的定义是: <code>二维</code>,不是一维也不是多维</p>
+<h3 id="第三种-torch-matmul"><a href="#第三种-torch-matmul" class="headerlink" title="第三种 torch.matmul()"></a>第三种 <code>torch.matmul()</code></h3><p>支持broadcast版的<code>torch.mm()</code></p>
+<blockquote>
+<p>怎么记:</p>
+<ul>
+<li>升级版的mm, 字数字数要多一点了 mm-&gt;mat(trix)mul(tiply)</li>
+</ul>
+</blockquote>
+<p>原理和*一样(将大矩阵分成许多由同小矩阵相同size的矩阵组成, 每个小矩阵和小矩阵进行矩阵相乘), 强调一下, 对应位置的矩阵维度要满足矩阵相乘的条件</p>
+<blockquote>
+<p>eg:</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">a = torch.ones(<span class="number">3</span>,<span class="number">4</span>)</span><br><span class="line">b = torch.ones(<span class="number">5</span>,<span class="number">2</span>,<span class="number">4</span>)</span><br><span class="line"><span class="built_in">print</span>(torch.matmul(a, b).size())</span><br><span class="line"></span><br><span class="line">RuntimeError: mat1 <span class="keyword">and</span> mat2 shapes cannot be multiplied (20x2 <span class="keyword">and</span> 4x3)</span><br><span class="line">  </span><br><span class="line">    a = torch.ones(<span class="number">3</span>,<span class="number">4</span>)</span><br><span class="line">    b = torch.ones(<span class="number">5</span>,<span class="number">4</span>,<span class="number">2</span>)</span><br><span class="line">    <span class="built_in">print</span>(torch.matmul(a, b).size())</span><br><span class="line">    </span><br><span class="line">    torch.Size([<span class="number">5</span>, <span class="number">3</span>, <span class="number">2</span>]) <span class="comment">#本质是5个(4, 2)矩阵和 a矩阵相乘</span></span><br></pre></td></tr></table></figure></blockquote>
 ]]></content>
       <categories>
-        <category>Blog</category>
+        <category>Pytorch</category>
       </categories>
       <tags>
-        <tag>Hexo</tag>
-        <tag>Butterfly</tag>
+        <tag>Pytorch</tag>
+        <tag>Learning Note</tag>
+        <tag>Muggle</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>新手Pytorch笔记 (二)</title>
+    <url>/2021/08/26/%E6%96%B0%E6%89%8BPytorch%E7%AC%94%E8%AE%B0/</url>
+    <content><![CDATA[<h2 id="基础概念"><a href="#基础概念" class="headerlink" title="基础概念"></a>基础概念</h2><ol>
+<li><p>什么是<a href="https://pypi.org/project/torchvision/0.1.8/">torchvision</a>, torchvision包含了什么, 有什么作用, 跟pytorch版本的对应关系是什么</p>
+<blockquote>
+<p>torchvision是基于Pytorch学习框架，</p>
+<p>包含：</p>
+<ul>
+<li>torchvision.datasets：常见的vision数据集</li>
+<li>torchvision.models:   比较流行的模型</li>
+<li>torchvision.transforms:  常见的图形变幻方式</li>
+<li>torchvision.utils:  图像处理的工具包</li>
+</ul>
+</blockquote>
+</li>
+<li><p>Pytorch中的Tensor</p>
+<p>详情请看<a href="https://xu-shuhao.github.io/2021/08/06/%E6%96%B0%E6%89%8BPytorchTensor%E7%AC%94%E8%AE%B0/">新手PytorchTensor笔记 (一)</a></p>
+</li>
+<li></li>
+</ol>
+]]></content>
+      <categories>
+        <category>Pytorch</category>
+      </categories>
+      <tags>
+        <tag>Pytorch</tag>
+        <tag>Learning Note</tag>
       </tags>
   </entry>
   <entry>
@@ -577,36 +607,6 @@
       <tags>
         <tag>Learning Note</tag>
         <tag>Graph</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>新手Pytorch笔记 (二)</title>
-    <url>/2021/08/26/%E6%96%B0%E6%89%8BPytorch%E7%AC%94%E8%AE%B0/</url>
-    <content><![CDATA[<h2 id="基础概念"><a href="#基础概念" class="headerlink" title="基础概念"></a>基础概念</h2><ol>
-<li><p>什么是<a href="https://pypi.org/project/torchvision/0.1.8/">torchvision</a>, torchvision包含了什么, 有什么作用, 跟pytorch版本的对应关系是什么</p>
-<blockquote>
-<p>torchvision是基于Pytorch学习框架，</p>
-<p>包含：</p>
-<ul>
-<li>torchvision.datasets：常见的vision数据集</li>
-<li>torchvision.models:   比较流行的模型</li>
-<li>torchvision.transforms:  常见的图形变幻方式</li>
-<li>torchvision.utils:  图像处理的工具包</li>
-</ul>
-</blockquote>
-</li>
-<li><p>Pytorch中的Tensor</p>
-<p>详情请看<a href="https://xu-shuhao.github.io/2021/08/06/%E6%96%B0%E6%89%8BPytorchTensor%E7%AC%94%E8%AE%B0/">新手PytorchTensor笔记 (一)</a></p>
-</li>
-<li></li>
-</ol>
-]]></content>
-      <categories>
-        <category>Pytorch</category>
-      </categories>
-      <tags>
-        <tag>Pytorch</tag>
-        <tag>Learning Note</tag>
       </tags>
   </entry>
 </search>
