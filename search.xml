@@ -1,100 +1,107 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>Hexo+Github+Butterfly mac上部署自己的博客</title>
-    <url>/2021/08/06/Hexo-Github-Butterfly-mac%E4%B8%8A%E9%83%A8%E7%BD%B2%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2/</url>
-    <content><![CDATA[<h2 id="Hexo-Github-Butterfly-mac上部署自己的博客"><a href="#Hexo-Github-Butterfly-mac上部署自己的博客" class="headerlink" title="Hexo+Github+Butterfly mac上部署自己的博客"></a>Hexo+Github+Butterfly mac上部署自己的博客</h2><h3 id="Abstract：摘要"><a href="#Abstract：摘要" class="headerlink" title="Abstract：摘要"></a>Abstract：摘要</h3><blockquote>
-<p>本篇博客在继承诸多博主的经验以及总结官方教程之后，详细讲述如何在MacOS环境下利用Hexo框架下的Butterfly主题，在同性交友网站Github上部署自己的博客。</p>
-</blockquote>
-<h3 id="Introduction："><a href="#Introduction：" class="headerlink" title="Introduction："></a>Introduction：</h3><p>在Github上利用Hexo部署自己的博客已经是个常态，（默认看本教程的用户有Github账号），本文会讲述以下内容：</p>
+    <title>Graph Structured Network for Image-Text Matching 阅读笔记</title>
+    <url>/2021/08/07/Graph%20Structured%20Network%20for%20Image-Text%20Matching%20%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/</url>
+    <content><![CDATA[<h1 id="Graph-Structured-Network-for-Image-Text-Matching-阅读笔记"><a href="#Graph-Structured-Network-for-Image-Text-Matching-阅读笔记" class="headerlink" title="Graph Structured Network for Image-Text Matching 阅读笔记"></a>Graph Structured Network for Image-Text Matching 阅读笔记</h1><p>将经过自己理解的知识, 进行处理; </p>
+<p>PPT 作者介绍</p>
+<h2 id="1-在这篇论文出来前-行业内的难点是什么"><a href="#1-在这篇论文出来前-行业内的难点是什么" class="headerlink" title="1 在这篇论文出来前, 行业内的难点是什么"></a>1 在这篇论文出来前, 行业内的难点是什么</h2><p>​    这是针对imge-text matching的任务, 这个任务的难点有3个: </p>
 <ul>
-<li><p>如何在本地电脑上配置Github公钥和私钥</p>
+<li>如何从text文本中提取有效信息, 并且这些信息和信息之间有什么关联</li>
+<li>如何从img中获取图片中有物体(目标)的区域, 这些区域和区域之间是有什么关联</li>
+<li>最重要的: 如何将text的feature和img的feature产生关联性</li>
+</ul>
+<h2 id="2-行业往往用什么办法来解决的"><a href="#2-行业往往用什么办法来解决的" class="headerlink" title="2 行业往往用什么办法来解决的"></a>2 行业往往用什么办法来解决的</h2><p>​    行业内常见的做法是将训练数据中的{image, text}这样的pair进行高维度空间的映射, 尽可能地使得image和text在高维度间的距离相近. 这是对象共现的做法, 目前主要有两种学习方案:</p>
+<ul>
+<li>global correspondence:<ul>
+<li>学习整个图像与句子之间的对应关系</li>
+<li>主要目标是最大化匹配图文对的相似性.该领域的主要研究思路是首先将图像和文本表示为特征向量，然后将它们投影到一个经过排序损失优化的公共空间中.这种全局对应学习方法不能准确地学习图像和文本的对应关系，因为主要对象在图像-文本对的全局表示中占据主导地位，而次要对象大多被忽略.</li>
+</ul>
 </li>
-<li><p>如何创建Github静态托管页面</p>
-</li>
-<li><p>如何部署Hexo在本地</p>
-</li>
-<li><p>如何应用Butterfly主题</p>
-</li>
-<li><p>如何写博客并且发布到Github上</p>
+<li>local correspondence:<ul>
+<li>在局部区域和文字之间学习</li>
+<li>缺点是: 忽略了其他的文字对匹配对象的辅助作用</li>
+</ul>
 </li>
 </ul>
-<h3 id="如何在本地电脑上配置Github公钥和私钥"><a href="#如何在本地电脑上配置Github公钥和私钥" class="headerlink" title="如何在本地电脑上配置Github公钥和私钥"></a>如何在本地电脑上配置Github公钥和私钥</h3><p>现在打开电脑的terminal终端</p>
-<h4 id="1、安装Git"><a href="#1、安装Git" class="headerlink" title="1、安装Git"></a>1、安装Git</h4><p>​    如果不确定是否安装过Git，请用</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git --version</span><br></pre></td></tr></table></figure>
-
-<p>​    如果出现`git version 2.31.1Git版本字样，说明安装成功Git了，如果没有安装过，请用</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">brew install git</span><br></pre></td></tr></table></figure>
-
-<p>​    这是用HomeBrew安装Git包，本博客推荐（Homebrew是MacOS的一款包管理器，类似于python中的pip），如果没有安装HomeBrew，请用</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">/bin/bash -c <span class="string">&quot;<span class="subst">$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)</span>&quot;</span></span><br></pre></td></tr></table></figure>
-
-<h4 id="2、生成SSH密钥文件"><a href="#2、生成SSH密钥文件" class="headerlink" title="2、生成SSH密钥文件"></a>2、生成SSH密钥文件</h4><p>​    这是为了以后你每次将博客推送到Github，不需要重复输入用户名和密码。</p>
-<h5 id="a-检查是否已经有SSH-Key了"><a href="#a-检查是否已经有SSH-Key了" class="headerlink" title="a. 检查是否已经有SSH Key了"></a>a. 检查是否已经有SSH Key了</h5><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> ~/.ssh</span><br><span class="line">ls</span><br></pre></td></tr></table></figure>
-
-<p>​    如果文件存在，那就不需要配置SSH密钥，直接跳过这一步骤，如果没有，则在命令行输入：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git config --global user.name <span class="string">&quot;你的Github用户名&quot;</span></span><br><span class="line">git config --global user.email <span class="string">&quot;你的Github注册邮箱&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>​    随后生成SSH密钥文件</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ssh-keygen -t rsa -C <span class="string">&quot;你的Github注册邮箱&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>​    系统会问你三次密码：比如推送Git时要需要的代码等，个人建议直接三次回车，省得麻烦。</p>
-<p>​    随后系统会告诉你已经成功生成了id_rsa&amp;id_rsa.pub文件，输入</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">cat ~/.ssh/id_rsa.pub</span><br></pre></td></tr></table></figure>
-
-<p>​    将id_rsa.pub在terminal显示，复制该内容<code>SHA256:xxx</code>到剪切板，随后打开Github，在<code>Setting</code>-&gt;<code>SSH and GPG keys</code>点击<code>New SSH key</code>将剪切板的内容复制到<code>Key</code>上去，<code>Title</code>部分取名容易知道这是哪台电脑的SSH即可. 比如 <code>SimonDeMac</code></p>
-<h4 id="3-验证是否成功"><a href="#3-验证是否成功" class="headerlink" title="3 验证是否成功"></a>3 验证是否成功</h4><p>输入</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ssh -T git@github.com</span><br></pre></td></tr></table></figure>
-
-<p>​    进行验证,如果出现<code>Hi 你的Github用户名! You&#39;ve successfully authenticated, but GitHub does not provide shell access.</code>说明验成功了.</p>
-<h3 id="如何创建Github静态托管页面"><a href="#如何创建Github静态托管页面" class="headerlink" title="如何创建Github静态托管页面"></a>如何创建Github静态托管页面</h3><p>​    新建一个Repositoriy, 名字是<code>你的用户名.github.io</code>, 仓库要选择<code>Public</code>. 至于协议之类的, 都随意.</p>
-<h3 id="如何部署Hexo在电脑本地"><a href="#如何部署Hexo在电脑本地" class="headerlink" title="如何部署Hexo在电脑本地"></a>如何部署Hexo在电脑本地</h3><h4 id="1-查验是否安装Node-js"><a href="#1-查验是否安装Node-js" class="headerlink" title="1 查验是否安装Node.js"></a>1 查验是否安装Node.js</h4><p>​    Hexo是基于Node.js框架的, 输入<code>node --v</code>如果出现版本号, 就是已经安装过了, 如果没有, 请</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">brew install node</span><br></pre></td></tr></table></figure>
-
-<h4 id="2-用npm-安装Hexo"><a href="#2-用npm-安装Hexo" class="headerlink" title="2 用npm 安装Hexo"></a>2 用npm 安装Hexo</h4><p>​    npm是node,js的包管理工具, 输入<code>npm -v</code>查看是否安装成功, 随后用npm安装Hexo</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm install -g hexo-cli</span><br></pre></td></tr></table></figure>
-
-<h4 id="3-初始化博客目录"><a href="#3-初始化博客目录" class="headerlink" title="3 初始化博客目录"></a>3 初始化博客目录</h4><p>​    比如说你想在<code>/Users/用户名/Documents/GithubBlog</code>这个目录下建立博客, 先将命令行切过去</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> /Users/你的用户名/Documents</span><br></pre></td></tr></table></figure>
-
-<p>​    然后</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">mkdir GithubBlog</span><br></pre></td></tr></table></figure>
-
-<p>​    创建目录, 再<code>cd GithubBlog</code>进入,这时候你的目录是<code>/Users/用户名/Documents/GithubBlog</code></p>
-<p>​    下一步, 初始化博客</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hexo init</span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="4-如何应用Butterfly主题"><a href="#4-如何应用Butterfly主题" class="headerlink" title="4 如何应用Butterfly主题"></a>4 如何应用Butterfly主题</h3><h5 id="a-在刚才文件夹目录下-输入"><a href="#a-在刚才文件夹目录下-输入" class="headerlink" title="a 在刚才文件夹目录下, 输入"></a>a 在刚才文件夹目录下, 输入</h5><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git <span class="built_in">clone</span> -b master https://github.com/jerryc127/hexo-theme-butterfly.git themes/Butterfly</span><br></pre></td></tr></table></figure>
-
-<p>​    启用Butterfly, vim 根目录的<code>_config,yml</code>文件, 将<code>theme: landscape</code> 改成 <code>theme: Butterfly</code></p>
-<p>​    为了主题的平滑升级, 把主题默认配置文件<code>themes/Butterfly/_config.yml</code>复制到 Hexo 工作目录下的<code>themes/source/_data/butterfly.yml</code>，如果<code>source/_data</code>的目录不存在那就创建一个。</p>
-<p>​    如果创建了<code>butterfly.yml</code>, 它将会替换主题默认配置文件<code>themes/Butterfly/_config.yml</code>里的配置项 (不是合并而是替换), 之后就只需要通过<code>git pull</code>的方式平滑地升级<code> theme-butterfly</code>了。</p>
-<h5 id="b-解决Bug"><a href="#b-解决Bug" class="headerlink" title="b 解决Bug"></a>b 解决Bug</h5><p>出现时</p>
+<h2 id="作者提出了什么新思路来解决难点的"><a href="#作者提出了什么新思路来解决难点的" class="headerlink" title="作者提出了什么新思路来解决难点的"></a>作者提出了什么新思路来解决难点的</h2><p>​    作者认为行业内的做法没有考虑到被称作<code>fine-grained correspondence</code>的数据, 比如物体和文本的关系, 属性等特征, 只考虑到物体对应. 这样做的后果有两个:</p>
+<ul>
+<li>研究方向聚焦物体对应方面, 容易忽略其他有用的信息, 比如说: 关系, 属性等等.</li>
+<li>文本对象, 图像对象有可能存在匹配失误的问题, 比如说: 狗</li>
+</ul>
+<h2 id="GSMN的结构详细介绍"><a href="#GSMN的结构详细介绍" class="headerlink" title="GSMN的结构详细介绍"></a>GSMN的结构详细介绍</h2><p><img src="https://cdn.jsdelivr.net/gh/Xu-Shuhao/PicBedCDN/img/paper_cv_GSMN_overview_network.png" alt="image1-An overview of GSMN structure"></p>
 <blockquote>
-<p>extends includes/layout.pug block content #recent-posts.recent-posts include includes/recent-posts.pug include includes/pagination.pug #aside_content.aside_content include includes/aside.pug</p>
+<p>它由三个模块组成:(a)特征提取：使用Faster-RCNN 和Stanford CoreNLP 分别检测显著区域并解析语义依赖性 (b) 图的构造：图的节点是对象，关系或属性，如果任意两个节点在语义上是相关的，则边存在。(c1)节点级匹配：分别学习对象，关系和属性的对应关系。(c2)结构级匹配：将学习到的对应关系传播给邻居，以共同推断出细粒度的短语对应关系.</p>
 </blockquote>
-<p>请使用</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm install hexo-renderer-pug hexo-renderer-stylus --save</span><br></pre></td></tr></table></figure>
-
-<h5 id="c-进行-config-yml配置"><a href="#c-进行-config-yml配置" class="headerlink" title="c 进行_config.yml配置"></a>c 进行<code>_config.yml</code>配置</h5><p>​    在<code>_config.yml</code>中更新<code>deploy</code>内容:</p>
-<figure class="highlight yml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Deployment</span></span><br><span class="line"><span class="comment">## Docs: https://hexo.io/docs/one-command-deployment</span></span><br><span class="line"><span class="attr">deploy:</span></span><br><span class="line">  <span class="attr">type:</span> <span class="string">git</span></span><br><span class="line">  <span class="attr">repo:</span> <span class="string">https://github.com/Github用户名/Github用户名.github.io.git</span></span><br><span class="line">  <span class="attr">branch:</span> <span class="string">master</span></span><br></pre></td></tr></table></figure>
-
-<p>​    因为你选择的是<code>master</code>分支, 所以去<code>Github</code>, <code>你的用户名.github.io</code>这个仓库中, 打开<code>Setting</code>-&gt; <code>Pages</code>-&gt;<code>Source Branch: 从main改成master</code></p>
-<h3 id="5-如何写博客并且发布到Github上"><a href="#5-如何写博客并且发布到Github上" class="headerlink" title="5 如何写博客并且发布到Github上"></a>5 如何写博客并且发布到Github上</h3><p>​    你的博客都在<code>sourc/_post</code>中, <code>hexo -n blogName.md</code>, 用<code>Typora</code>开始写作吧, 写完之后, 在命令行输入</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hexo clean</span><br><span class="line">hexo g</span><br><span class="line">hexo d</span><br></pre></td></tr></table></figure>
-
-<p>​    即可.</p>
-<p>关于美化部分, 打算参考这篇文章 [美化Butterfly][<a href="https://innerspace-hs.github.io/2020/11/07/butterfly%E7%BE%8E%E5%8C%96hexo%E5%8D%9A%E5%AE%A2/]">https://innerspace-hs.github.io/2020/11/07/butterfly%E7%BE%8E%E5%8C%96hexo%E5%8D%9A%E5%AE%A2/]</a></p>
-<p>[][]</p>
+<h3 id="1-图结构介绍"><a href="#1-图结构介绍" class="headerlink" title="1 图结构介绍"></a>1 图结构介绍</h3><p>结构是什么, 是怎么存储的.</p>
+<h4 id="Textual-Graph"><a href="#Textual-Graph" class="headerlink" title="Textual Graph"></a>Textual Graph</h4><p><code>Textual Graph</code>用无向图 $G_1=(V_1, E_1)$ 表示. 该图也被设置为全连接图 </p>
+<p>建立这张图, 用到了<code>3</code>个矩阵: 带有self-loops(对角线值为 $1$ )的邻接矩阵 $A$ , 表示单词之间相近度的矩阵 $S$ , 边的权重矩阵 $W_e$</p>
+<ul>
+<li><p>邻接矩阵$A$是通过<code>Stanford CoreNLP</code>对文本单词进行关系提取, 有语意关系的认为是有边的</p>
+</li>
+<li><p>$S$矩阵是通过学习得到的, 学习公式是:</p>
+</li>
+<li><blockquote>
+<p>${s_{ij} = \frac{\exp({\lambda} {u_i^T} {u_j})} {\sum_{j=0}^{m} \exp({\lambda} {u_i^T} {u_j})} }$</p>
+<p>其中, $u$是word representations(Embeddings),$s_{ij}$ 代表$i$-th和$j$-th节点的相似度 </p>
+</blockquote>
+</li>
+<li><p>$W$矩阵是通过$S$和$A$得到的, 公式是:</p>
+</li>
+<li><blockquote>
+<p>$W_e = \left|S \circ A \right|_2$</p>
+</blockquote>
+</li>
+</ul>
+<h4 id="Visual-Graph"><a href="#Visual-Graph" class="headerlink" title="Visual Graph"></a>Visual Graph</h4><p>​    $G_2=(V_2, E_2)$, 同理, 只是将<code>Stanford CoreNLP</code>替换成了<code>Faster-RCNN</code>, 这里作者说了极坐标表示, 我还不是很懂..</p>
+<h3 id="2-图的交互和传播"><a href="#2-图的交互和传播" class="headerlink" title="2 图的交互和传播"></a>2 图的交互和传播</h3><p>​    本次的目标是要创造一个函数<code>g( )</code>, 表示$G_1$和$G_2$的相似度, $G_1$节点用$U_{\alpha}\in \Reals^{m \times d}$表示, m是节点数, d是节点embedding的Dim; $G_2$节点用$V_{\beta}\in \Reals^{n \times d}$表示, m是节点数, d是节点embedding的Dim.</p>
+<h4 id="Node-level-matching"><a href="#Node-level-matching" class="headerlink" title="Node-level matching"></a>Node-level matching</h4><p>​    就是用节点和节点之间内积再经过<code>softmax</code>处理之后 表示两个节点之间的近似度; 具体公式是:</p>
+<blockquote>
+<p>$C_{t \to i} = softmax_{\beta}(\lambda U_{\alpha}V_{\beta}^T)V_\beta$</p>
+</blockquote>
+<p>​    $\lambda$是个超参数, 具体解释请看论文, 这个不是很重要的地方,有趣的地方来了</p>
+<blockquote>
+<p>看到这我一直在思考, 如果按照作者这种建模方式, 岂不是每一对<code>&#123;img, text&#125;</code>的pair都需要单独建模, 建图, 一方面我认为这种方式建模复杂, 不具有很好的范性; 另一方面, 这种text和img的匹配空间就是训练集给什么pair, 测试的时候只能出现相应的pair, 这显然是不合理的. 作者做了如下改变:</p>
+<p>​    将文本图的第i个节点分成<code>t</code>份, 其有关系的视觉图的<code>k</code>个节点也用<code>t</code>份<code>block</code>表示. (具体怎么表示的, 请看作者代码), 最后针对这个第i个节点, 形成了$x_i = x_{i1} |…|x_{it}$, 我的理解是这个$x_i$表示该文本图的节点所有可能匹配的视觉图的节点的匹配关系.</p>
+</blockquote>
+<p>​    视觉的点的建模方式和文本相似</p>
+<blockquote>
+<p>$C_{i \to t} = softmax_{\alpha}(\lambda V_{\beta} U_{\alpha}^T)U_{\alpha}$</p>
+</blockquote>
+<p>​    因为最后形成的$x_i$是针对每一个node以及其所匹配的另一张图的节点的, 所以$C_{t \to i} \neq C_{i \to t}$</p>
+<h4 id="Structure-level-matching"><a href="#Structure-level-matching" class="headerlink" title="Structure-level matching"></a>Structure-level matching</h4><p>​    此小节将$x_i$(节点匹配结果)作为输入, 在图中传播, 注意这个structure传播是单独在Text 或者Graph的图上传播, 不涉及同时在两张图传播. 图卷积传播公式是</p>
+<blockquote>
+<p> $\hat{x_i} = |<em>{k=1}^{K} \sigma(\displaystyle\sum</em>{j \in N_i} W_e W_k x_j +b)$</p>
+<p>其中K是超参数, 代码中设置为8, $W_k$&amp;$b$是从$K$中学到的参数; 这是每个节点之间的Embedding传播公式</p>
+</blockquote>
+<p>​    当节点传播完毕之后, 要计算$Text \to Image$ &amp;$Image \to Text$ 分别从Text图, Image图去计算和对方的匹配程度. 所以需要计算$Text \to Image$图到$Image \to Text$图的相似度</p>
+<blockquote>
+<p>$s_{t \rightarrow i}=\frac{1}{n} \sum_{i} W_{s}^{u}\left(\sigma\left(W_{h}^{u} \hat{x}<em>{i}+b</em>{h}^{u}\right)\right)+b_{s}^{u}$</p>
+<p>$s_{i \rightarrow t}=\frac{1}{m} \sum_{j} W_{s}^{u}\left(\sigma\left(W_{h}^{u} \hat{x}<em>{i}+b</em>{h}^{u}\right)\right)+b_{s}^{u}$</p>
+<p>最后计算两张图的相似度作者是通过<code>+</code>来实现的</p>
+<p>$g(G_1, G_2) = s_{t \rightarrow i} + s_{i \rightarrow t}$</p>
+</blockquote>
+<h2 id="Loss-损失函数"><a href="#Loss-损失函数" class="headerlink" title="Loss 损失函数"></a>Loss 损失函数</h2><blockquote>
+<p>作者这里设置了 positive sample 和 negative sample 的pair对, 所以损失函数是</p>
+<p>$L=\sum_{(I, T)}\left[\gamma-g(I, T)+g\left(I, T^{\prime}\right)\right]<em>{+}+\left[\gamma-g(I, T)+g\left(I^{\prime}, T\right)\right]</em>{+}$</p>
+<p>where$ I^{\prime} , T^{\prime}$ are hard negatives, the function$ [·]$ + is equivalent to $max[·, 0]$</p>
+</blockquote>
+<h2 id="实验部分"><a href="#实验部分" class="headerlink" title="实验部分"></a>实验部分</h2><h2 id="阅读总结"><a href="#阅读总结" class="headerlink" title="阅读总结"></a>阅读总结</h2><p>​    作者文章逻辑很清晰, 这是值得学习的;</p>
+<h3 id="Q"><a href="#Q" class="headerlink" title="Q"></a>Q</h3><p>1、是不是一张图片，一段文字就是一张图？</p>
+<p>​    ??</p>
+<p>2、图片矩阵m和n是什么意思</p>
+<p>3、为什么区分 i-&gt;t t-&gt;i两种呢？</p>
+<p>​    因为从两个角度出发, 以i为中心, 记录与它最匹配的相似的图; 所以不一定是相互的.</p>
+<p>​    ??</p>
 ]]></content>
       <categories>
-        <category>Blog</category>
+        <category>CV</category>
       </categories>
       <tags>
-        <tag>Hexo</tag>
-        <tag>Butterfly</tag>
+        <tag>GNN</tag>
+        <tag>DeepLearning</tag>
+        <tag>Paper</tag>
+        <tag>CV</tag>
       </tags>
   </entry>
   <entry>
@@ -397,137 +404,103 @@
       </tags>
   </entry>
   <entry>
-    <title>新手Pytorch笔记 (二)</title>
-    <url>/2021/08/26/%E6%96%B0%E6%89%8BPytorch%E7%AC%94%E8%AE%B0/</url>
-    <content><![CDATA[<h2 id="基础概念"><a href="#基础概念" class="headerlink" title="基础概念"></a>基础概念</h2><ol>
-<li><p>什么是<a href="https://pypi.org/project/torchvision/0.1.8/">torchvision</a>, torchvision包含了什么, 有什么作用, 跟pytorch版本的对应关系是什么</p>
-<blockquote>
-<p>torchvision是基于Pytorch学习框架，</p>
-<p>包含：</p>
-<ul>
-<li>torchvision.datasets：常见的vision数据集</li>
-<li>torchvision.models:   比较流行的模型</li>
-<li>torchvision.transforms:  常见的图形变幻方式</li>
-<li>torchvision.utils:  图像处理的工具包</li>
-</ul>
+    <title>Hexo+Github+Butterfly mac上部署自己的博客</title>
+    <url>/2021/08/06/Hexo-Github-Butterfly-mac%E4%B8%8A%E9%83%A8%E7%BD%B2%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2/</url>
+    <content><![CDATA[<h2 id="Hexo-Github-Butterfly-mac上部署自己的博客"><a href="#Hexo-Github-Butterfly-mac上部署自己的博客" class="headerlink" title="Hexo+Github+Butterfly mac上部署自己的博客"></a>Hexo+Github+Butterfly mac上部署自己的博客</h2><h3 id="Abstract：摘要"><a href="#Abstract：摘要" class="headerlink" title="Abstract：摘要"></a>Abstract：摘要</h3><blockquote>
+<p>本篇博客在继承诸多博主的经验以及总结官方教程之后，详细讲述如何在MacOS环境下利用Hexo框架下的Butterfly主题，在同性交友网站Github上部署自己的博客。</p>
 </blockquote>
+<h3 id="Introduction："><a href="#Introduction：" class="headerlink" title="Introduction："></a>Introduction：</h3><p>在Github上利用Hexo部署自己的博客已经是个常态，（默认看本教程的用户有Github账号），本文会讲述以下内容：</p>
+<ul>
+<li><p>如何在本地电脑上配置Github公钥和私钥</p>
 </li>
-<li><p>Pytorch中的Tensor</p>
-<p>详情请看<a href="https://xu-shuhao.github.io/2021/08/06/%E6%96%B0%E6%89%8BPytorchTensor%E7%AC%94%E8%AE%B0/">新手PytorchTensor笔记 (一)</a></p>
+<li><p>如何创建Github静态托管页面</p>
 </li>
-<li></li>
-</ol>
+<li><p>如何部署Hexo在本地</p>
+</li>
+<li><p>如何应用Butterfly主题</p>
+</li>
+<li><p>如何写博客并且发布到Github上</p>
+</li>
+</ul>
+<h3 id="如何在本地电脑上配置Github公钥和私钥"><a href="#如何在本地电脑上配置Github公钥和私钥" class="headerlink" title="如何在本地电脑上配置Github公钥和私钥"></a>如何在本地电脑上配置Github公钥和私钥</h3><p>现在打开电脑的terminal终端</p>
+<h4 id="1、安装Git"><a href="#1、安装Git" class="headerlink" title="1、安装Git"></a>1、安装Git</h4><p>​    如果不确定是否安装过Git，请用</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git --version</span><br></pre></td></tr></table></figure>
+
+<p>​    如果出现`git version 2.31.1Git版本字样，说明安装成功Git了，如果没有安装过，请用</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">brew install git</span><br></pre></td></tr></table></figure>
+
+<p>​    这是用HomeBrew安装Git包，本博客推荐（Homebrew是MacOS的一款包管理器，类似于python中的pip），如果没有安装HomeBrew，请用</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">/bin/bash -c <span class="string">&quot;<span class="subst">$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)</span>&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="2、生成SSH密钥文件"><a href="#2、生成SSH密钥文件" class="headerlink" title="2、生成SSH密钥文件"></a>2、生成SSH密钥文件</h4><p>​    这是为了以后你每次将博客推送到Github，不需要重复输入用户名和密码。</p>
+<h5 id="a-检查是否已经有SSH-Key了"><a href="#a-检查是否已经有SSH-Key了" class="headerlink" title="a. 检查是否已经有SSH Key了"></a>a. 检查是否已经有SSH Key了</h5><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> ~/.ssh</span><br><span class="line">ls</span><br></pre></td></tr></table></figure>
+
+<p>​    如果文件存在，那就不需要配置SSH密钥，直接跳过这一步骤，如果没有，则在命令行输入：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git config --global user.name <span class="string">&quot;你的Github用户名&quot;</span></span><br><span class="line">git config --global user.email <span class="string">&quot;你的Github注册邮箱&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>​    随后生成SSH密钥文件</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ssh-keygen -t rsa -C <span class="string">&quot;你的Github注册邮箱&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>​    系统会问你三次密码：比如推送Git时要需要的代码等，个人建议直接三次回车，省得麻烦。</p>
+<p>​    随后系统会告诉你已经成功生成了id_rsa&amp;id_rsa.pub文件，输入</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">cat ~/.ssh/id_rsa.pub</span><br></pre></td></tr></table></figure>
+
+<p>​    将id_rsa.pub在terminal显示，复制该内容<code>SHA256:xxx</code>到剪切板，随后打开Github，在<code>Setting</code>-&gt;<code>SSH and GPG keys</code>点击<code>New SSH key</code>将剪切板的内容复制到<code>Key</code>上去，<code>Title</code>部分取名容易知道这是哪台电脑的SSH即可. 比如 <code>SimonDeMac</code></p>
+<h4 id="3-验证是否成功"><a href="#3-验证是否成功" class="headerlink" title="3 验证是否成功"></a>3 验证是否成功</h4><p>输入</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ssh -T git@github.com</span><br></pre></td></tr></table></figure>
+
+<p>​    进行验证,如果出现<code>Hi 你的Github用户名! You&#39;ve successfully authenticated, but GitHub does not provide shell access.</code>说明验成功了.</p>
+<h3 id="如何创建Github静态托管页面"><a href="#如何创建Github静态托管页面" class="headerlink" title="如何创建Github静态托管页面"></a>如何创建Github静态托管页面</h3><p>​    新建一个Repositoriy, 名字是<code>你的用户名.github.io</code>, 仓库要选择<code>Public</code>. 至于协议之类的, 都随意.</p>
+<h3 id="如何部署Hexo在电脑本地"><a href="#如何部署Hexo在电脑本地" class="headerlink" title="如何部署Hexo在电脑本地"></a>如何部署Hexo在电脑本地</h3><h4 id="1-查验是否安装Node-js"><a href="#1-查验是否安装Node-js" class="headerlink" title="1 查验是否安装Node.js"></a>1 查验是否安装Node.js</h4><p>​    Hexo是基于Node.js框架的, 输入<code>node --v</code>如果出现版本号, 就是已经安装过了, 如果没有, 请</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">brew install node</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-用npm-安装Hexo"><a href="#2-用npm-安装Hexo" class="headerlink" title="2 用npm 安装Hexo"></a>2 用npm 安装Hexo</h4><p>​    npm是node,js的包管理工具, 输入<code>npm -v</code>查看是否安装成功, 随后用npm安装Hexo</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm install -g hexo-cli</span><br></pre></td></tr></table></figure>
+
+<h4 id="3-初始化博客目录"><a href="#3-初始化博客目录" class="headerlink" title="3 初始化博客目录"></a>3 初始化博客目录</h4><p>​    比如说你想在<code>/Users/用户名/Documents/GithubBlog</code>这个目录下建立博客, 先将命令行切过去</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> /Users/你的用户名/Documents</span><br></pre></td></tr></table></figure>
+
+<p>​    然后</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">mkdir GithubBlog</span><br></pre></td></tr></table></figure>
+
+<p>​    创建目录, 再<code>cd GithubBlog</code>进入,这时候你的目录是<code>/Users/用户名/Documents/GithubBlog</code></p>
+<p>​    下一步, 初始化博客</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hexo init</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="4-如何应用Butterfly主题"><a href="#4-如何应用Butterfly主题" class="headerlink" title="4 如何应用Butterfly主题"></a>4 如何应用Butterfly主题</h3><h5 id="a-在刚才文件夹目录下-输入"><a href="#a-在刚才文件夹目录下-输入" class="headerlink" title="a 在刚才文件夹目录下, 输入"></a>a 在刚才文件夹目录下, 输入</h5><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git <span class="built_in">clone</span> -b master https://github.com/jerryc127/hexo-theme-butterfly.git themes/Butterfly</span><br></pre></td></tr></table></figure>
+
+<p>​    启用Butterfly, vim 根目录的<code>_config,yml</code>文件, 将<code>theme: landscape</code> 改成 <code>theme: Butterfly</code></p>
+<p>​    为了主题的平滑升级, 把主题默认配置文件<code>themes/Butterfly/_config.yml</code>复制到 Hexo 工作目录下的<code>themes/source/_data/butterfly.yml</code>，如果<code>source/_data</code>的目录不存在那就创建一个。</p>
+<p>​    如果创建了<code>butterfly.yml</code>, 它将会替换主题默认配置文件<code>themes/Butterfly/_config.yml</code>里的配置项 (不是合并而是替换), 之后就只需要通过<code>git pull</code>的方式平滑地升级<code> theme-butterfly</code>了。</p>
+<h5 id="b-解决Bug"><a href="#b-解决Bug" class="headerlink" title="b 解决Bug"></a>b 解决Bug</h5><p>出现时</p>
+<blockquote>
+<p>extends includes/layout.pug block content #recent-posts.recent-posts include includes/recent-posts.pug include includes/pagination.pug #aside_content.aside_content include includes/aside.pug</p>
+</blockquote>
+<p>请使用</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm install hexo-renderer-pug hexo-renderer-stylus --save</span><br></pre></td></tr></table></figure>
+
+<h5 id="c-进行-config-yml配置"><a href="#c-进行-config-yml配置" class="headerlink" title="c 进行_config.yml配置"></a>c 进行<code>_config.yml</code>配置</h5><p>​    在<code>_config.yml</code>中更新<code>deploy</code>内容:</p>
+<figure class="highlight yml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Deployment</span></span><br><span class="line"><span class="comment">## Docs: https://hexo.io/docs/one-command-deployment</span></span><br><span class="line"><span class="attr">deploy:</span></span><br><span class="line">  <span class="attr">type:</span> <span class="string">git</span></span><br><span class="line">  <span class="attr">repo:</span> <span class="string">https://github.com/Github用户名/Github用户名.github.io.git</span></span><br><span class="line">  <span class="attr">branch:</span> <span class="string">master</span></span><br></pre></td></tr></table></figure>
+
+<p>​    因为你选择的是<code>master</code>分支, 所以去<code>Github</code>, <code>你的用户名.github.io</code>这个仓库中, 打开<code>Setting</code>-&gt; <code>Pages</code>-&gt;<code>Source Branch: 从main改成master</code></p>
+<h3 id="5-如何写博客并且发布到Github上"><a href="#5-如何写博客并且发布到Github上" class="headerlink" title="5 如何写博客并且发布到Github上"></a>5 如何写博客并且发布到Github上</h3><p>​    你的博客都在<code>sourc/_post</code>中, <code>hexo -n blogName.md</code>, 用<code>Typora</code>开始写作吧, 写完之后, 在命令行输入</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hexo clean</span><br><span class="line">hexo g</span><br><span class="line">hexo d</span><br></pre></td></tr></table></figure>
+
+<p>​    即可.</p>
+<p>现在如果你用hexo d出现问题 <em>remote: Support for password authentication was removed on August 13, 2021. Please use a personal ac</em> 那么请在<code>https://github.com/settings/profile</code>-&gt;<code>Developer settings</code>-&gt;<code>Personal access tokens</code> 生成相对应的token, 复制并用东西保存起来这个<code>Token</code>因为只会出现一次.</p>
+<p>再次输入github用户名和密码时, 密码部分用这个<code>Token</code>替代即可.</p>
+<hr>
+<p>关于美化部分, 打算参考这篇文章 [美化Butterfly][<a href="https://innerspace-hs.github.io/2020/11/07/butterfly%E7%BE%8E%E5%8C%96hexo%E5%8D%9A%E5%AE%A2/]">https://innerspace-hs.github.io/2020/11/07/butterfly%E7%BE%8E%E5%8C%96hexo%E5%8D%9A%E5%AE%A2/]</a></p>
+<p>[][]</p>
 ]]></content>
       <categories>
-        <category>Pytorch</category>
+        <category>Blog</category>
       </categories>
       <tags>
-        <tag>Pytorch</tag>
-        <tag>Learning Note</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Graph Structured Network for Image-Text Matching 阅读笔记</title>
-    <url>/2021/08/07/Graph%20Structured%20Network%20for%20Image-Text%20Matching%20%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/</url>
-    <content><![CDATA[<h1 id="Graph-Structured-Network-for-Image-Text-Matching-阅读笔记"><a href="#Graph-Structured-Network-for-Image-Text-Matching-阅读笔记" class="headerlink" title="Graph Structured Network for Image-Text Matching 阅读笔记"></a>Graph Structured Network for Image-Text Matching 阅读笔记</h1><p>将经过自己理解的知识, 进行处理; </p>
-<p>PPT 作者介绍</p>
-<h2 id="1-在这篇论文出来前-行业内的难点是什么"><a href="#1-在这篇论文出来前-行业内的难点是什么" class="headerlink" title="1 在这篇论文出来前, 行业内的难点是什么"></a>1 在这篇论文出来前, 行业内的难点是什么</h2><p>​    这是针对imge-text matching的任务, 这个任务的难点有3个: </p>
-<ul>
-<li>如何从text文本中提取有效信息, 并且这些信息和信息之间有什么关联</li>
-<li>如何从img中获取图片中有物体(目标)的区域, 这些区域和区域之间是有什么关联</li>
-<li>最重要的: 如何将text的feature和img的feature产生关联性</li>
-</ul>
-<h2 id="2-行业往往用什么办法来解决的"><a href="#2-行业往往用什么办法来解决的" class="headerlink" title="2 行业往往用什么办法来解决的"></a>2 行业往往用什么办法来解决的</h2><p>​    行业内常见的做法是将训练数据中的{image, text}这样的pair进行高维度空间的映射, 尽可能地使得image和text在高维度间的距离相近. 这是对象共现的做法, 目前主要有两种学习方案:</p>
-<ul>
-<li>global correspondence:<ul>
-<li>学习整个图像与句子之间的对应关系</li>
-<li>主要目标是最大化匹配图文对的相似性.该领域的主要研究思路是首先将图像和文本表示为特征向量，然后将它们投影到一个经过排序损失优化的公共空间中.这种全局对应学习方法不能准确地学习图像和文本的对应关系，因为主要对象在图像-文本对的全局表示中占据主导地位，而次要对象大多被忽略.</li>
-</ul>
-</li>
-<li>local correspondence:<ul>
-<li>在局部区域和文字之间学习</li>
-<li>缺点是: 忽略了其他的文字对匹配对象的辅助作用</li>
-</ul>
-</li>
-</ul>
-<h2 id="作者提出了什么新思路来解决难点的"><a href="#作者提出了什么新思路来解决难点的" class="headerlink" title="作者提出了什么新思路来解决难点的"></a>作者提出了什么新思路来解决难点的</h2><p>​    作者认为行业内的做法没有考虑到被称作<code>fine-grained correspondence</code>的数据, 比如物体和文本的关系, 属性等特征, 只考虑到物体对应. 这样做的后果有两个:</p>
-<ul>
-<li>研究方向聚焦物体对应方面, 容易忽略其他有用的信息, 比如说: 关系, 属性等等.</li>
-<li>文本对象, 图像对象有可能存在匹配失误的问题, 比如说: 狗</li>
-</ul>
-<h2 id="GSMN的结构详细介绍"><a href="#GSMN的结构详细介绍" class="headerlink" title="GSMN的结构详细介绍"></a>GSMN的结构详细介绍</h2><p><img src="https://cdn.jsdelivr.net/gh/Xu-Shuhao/PicBedCDN/img/paper_cv_GSMN_overview_network.png" alt="image1-An overview of GSMN structure"></p>
-<blockquote>
-<p>它由三个模块组成:(a)特征提取：使用Faster-RCNN 和Stanford CoreNLP 分别检测显著区域并解析语义依赖性 (b) 图的构造：图的节点是对象，关系或属性，如果任意两个节点在语义上是相关的，则边存在。(c1)节点级匹配：分别学习对象，关系和属性的对应关系。(c2)结构级匹配：将学习到的对应关系传播给邻居，以共同推断出细粒度的短语对应关系.</p>
-</blockquote>
-<h3 id="1-图结构介绍"><a href="#1-图结构介绍" class="headerlink" title="1 图结构介绍"></a>1 图结构介绍</h3><p>结构是什么, 是怎么存储的.</p>
-<h4 id="Textual-Graph"><a href="#Textual-Graph" class="headerlink" title="Textual Graph"></a>Textual Graph</h4><p><code>Textual Graph</code>用无向图 $G_1=(V_1, E_1)$ 表示. 该图也被设置为全连接图 </p>
-<p>建立这张图, 用到了<code>3</code>个矩阵: 带有self-loops(对角线值为 $1$ )的邻接矩阵 $A$ , 表示单词之间相近度的矩阵 $S$ , 边的权重矩阵 $W_e$</p>
-<ul>
-<li><p>邻接矩阵$A$是通过<code>Stanford CoreNLP</code>对文本单词进行关系提取, 有语意关系的认为是有边的</p>
-</li>
-<li><p>$S$矩阵是通过学习得到的, 学习公式是:</p>
-</li>
-<li><blockquote>
-<p>${s_{ij} = \frac{\exp({\lambda} {u_i^T} {u_j})} {\sum_{j=0}^{m} \exp({\lambda} {u_i^T} {u_j})} }$</p>
-<p>其中, $u$是word representations(Embeddings),$s_{ij}$ 代表$i$-th和$j$-th节点的相似度 </p>
-</blockquote>
-</li>
-<li><p>$W$矩阵是通过$S$和$A$得到的, 公式是:</p>
-</li>
-<li><blockquote>
-<p>$W_e = \left|S \circ A \right|_2$</p>
-</blockquote>
-</li>
-</ul>
-<h4 id="Visual-Graph"><a href="#Visual-Graph" class="headerlink" title="Visual Graph"></a>Visual Graph</h4><p>​    $G_2=(V_2, E_2)$, 同理, 只是将<code>Stanford CoreNLP</code>替换成了<code>Faster-RCNN</code>, 这里作者说了极坐标表示, 我还不是很懂..</p>
-<h3 id="2-图的交互和传播"><a href="#2-图的交互和传播" class="headerlink" title="2 图的交互和传播"></a>2 图的交互和传播</h3><p>​    本次的目标是要创造一个函数<code>g( )</code>, 表示$G_1$和$G_2$的相似度, $G_1$节点用$U_{\alpha}\in \Reals^{m \times d}$表示, m是节点数, d是节点embedding的Dim; $G_2$节点用$V_{\beta}\in \Reals^{n \times d}$表示, m是节点数, d是节点embedding的Dim.</p>
-<h4 id="Node-level-matching"><a href="#Node-level-matching" class="headerlink" title="Node-level matching"></a>Node-level matching</h4><p>​    就是用节点和节点之间内积再经过<code>softmax</code>处理之后 表示两个节点之间的近似度; 具体公式是:</p>
-<blockquote>
-<p>$C_{t \to i} = softmax_{\beta}(\lambda U_{\alpha}V_{\beta}^T)V_\beta$</p>
-</blockquote>
-<p>​    $\lambda$是个超参数, 具体解释请看论文, 这个不是很重要的地方,有趣的地方来了</p>
-<blockquote>
-<p>看到这我一直在思考, 如果按照作者这种建模方式, 岂不是每一对<code>&#123;img, text&#125;</code>的pair都需要单独建模, 建图, 一方面我认为这种方式建模复杂, 不具有很好的范性; 另一方面, 这种text和img的匹配空间就是训练集给什么pair, 测试的时候只能出现相应的pair, 这显然是不合理的. 作者做了如下改变:</p>
-<p>​    将文本图的第i个节点分成<code>t</code>份, 其有关系的视觉图的<code>k</code>个节点也用<code>t</code>份<code>block</code>表示. (具体怎么表示的, 请看作者代码), 最后针对这个第i个节点, 形成了$x_i = x_{i1} |…|x_{it}$, 我的理解是这个$x_i$表示该文本图的节点所有可能匹配的视觉图的节点的匹配关系.</p>
-</blockquote>
-<p>​    视觉的点的建模方式和文本相似</p>
-<blockquote>
-<p>$C_{i \to t} = softmax_{\alpha}(\lambda V_{\beta} U_{\alpha}^T)U_{\alpha}$</p>
-</blockquote>
-<p>​    因为最后形成的$x_i$是针对每一个node以及其所匹配的另一张图的节点的, 所以$C_{t \to i} \neq C_{i \to t}$</p>
-<h4 id="Structure-level-matching"><a href="#Structure-level-matching" class="headerlink" title="Structure-level matching"></a>Structure-level matching</h4><p>​    此小节将$x_i$(节点匹配结果)作为输入, 在图中传播, 注意这个structure传播是单独在Text 或者Graph的图上传播, 不涉及同时在两张图传播. 图卷积传播公式是</p>
-<blockquote>
-<p> $\hat{x_i} = |<em>{k=1}^{K} \sigma(\displaystyle\sum</em>{j \in N_i} W_e W_k x_j +b)$</p>
-<p>其中K是超参数, 代码中设置为8, $W_k$&amp;$b$是从$K$中学到的参数; 这是每个节点之间的Embedding传播公式</p>
-</blockquote>
-<p>​    当节点传播完毕之后, 要计算$Text \to Image$ &amp;$Image \to Text$ 分别从Text图, Image图去计算和对方的匹配程度. 所以需要计算$Text \to Image$图到$Image \to Text$图的相似度</p>
-<blockquote>
-<p>$s_{t \rightarrow i}=\frac{1}{n} \sum_{i} W_{s}^{u}\left(\sigma\left(W_{h}^{u} \hat{x}<em>{i}+b</em>{h}^{u}\right)\right)+b_{s}^{u}$</p>
-<p>$s_{i \rightarrow t}=\frac{1}{m} \sum_{j} W_{s}^{u}\left(\sigma\left(W_{h}^{u} \hat{x}<em>{i}+b</em>{h}^{u}\right)\right)+b_{s}^{u}$</p>
-<p>最后计算两张图的相似度作者是通过<code>+</code>来实现的</p>
-<p>$g(G_1, G_2) = s_{t \rightarrow i} + s_{i \rightarrow t}$</p>
-</blockquote>
-<h2 id="Loss-损失函数"><a href="#Loss-损失函数" class="headerlink" title="Loss 损失函数"></a>Loss 损失函数</h2><blockquote>
-<p>作者这里设置了 positive sample 和 negative sample 的pair对, 所以损失函数是</p>
-<p>$L=\sum_{(I, T)}\left[\gamma-g(I, T)+g\left(I, T^{\prime}\right)\right]<em>{+}+\left[\gamma-g(I, T)+g\left(I^{\prime}, T\right)\right]</em>{+}$</p>
-<p>where$ I^{\prime} , T^{\prime}$ are hard negatives, the function$ [·]$ + is equivalent to $max[·, 0]$</p>
-</blockquote>
-<h2 id="实验部分"><a href="#实验部分" class="headerlink" title="实验部分"></a>实验部分</h2><h2 id="阅读总结"><a href="#阅读总结" class="headerlink" title="阅读总结"></a>阅读总结</h2><p>​    作者文章逻辑很清晰, 这是值得学习的;</p>
-<h3 id="Q"><a href="#Q" class="headerlink" title="Q"></a>Q</h3><p>1、是不是一张图片，一段文字就是一张图？</p>
-<p>​    ??</p>
-<p>2、图片矩阵m和n是什么意思</p>
-<p>3、为什么区分 i-&gt;t t-&gt;i两种呢？</p>
-<p>​    因为从两个角度出发, 以i为中心, 记录与它最匹配的相似的图; 所以不一定是相互的.</p>
-<p>​    ??</p>
-]]></content>
-      <categories>
-        <category>CV</category>
-      </categories>
-      <tags>
-        <tag>GNN</tag>
-        <tag>DeepLearning</tag>
-        <tag>Paper</tag>
-        <tag>CV</tag>
+        <tag>Hexo</tag>
+        <tag>Butterfly</tag>
       </tags>
   </entry>
   <entry>
@@ -604,6 +577,36 @@
       <tags>
         <tag>Learning Note</tag>
         <tag>Graph</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>新手Pytorch笔记 (二)</title>
+    <url>/2021/08/26/%E6%96%B0%E6%89%8BPytorch%E7%AC%94%E8%AE%B0/</url>
+    <content><![CDATA[<h2 id="基础概念"><a href="#基础概念" class="headerlink" title="基础概念"></a>基础概念</h2><ol>
+<li><p>什么是<a href="https://pypi.org/project/torchvision/0.1.8/">torchvision</a>, torchvision包含了什么, 有什么作用, 跟pytorch版本的对应关系是什么</p>
+<blockquote>
+<p>torchvision是基于Pytorch学习框架，</p>
+<p>包含：</p>
+<ul>
+<li>torchvision.datasets：常见的vision数据集</li>
+<li>torchvision.models:   比较流行的模型</li>
+<li>torchvision.transforms:  常见的图形变幻方式</li>
+<li>torchvision.utils:  图像处理的工具包</li>
+</ul>
+</blockquote>
+</li>
+<li><p>Pytorch中的Tensor</p>
+<p>详情请看<a href="https://xu-shuhao.github.io/2021/08/06/%E6%96%B0%E6%89%8BPytorchTensor%E7%AC%94%E8%AE%B0/">新手PytorchTensor笔记 (一)</a></p>
+</li>
+<li></li>
+</ol>
+]]></content>
+      <categories>
+        <category>Pytorch</category>
+      </categories>
+      <tags>
+        <tag>Pytorch</tag>
+        <tag>Learning Note</tag>
       </tags>
   </entry>
 </search>
